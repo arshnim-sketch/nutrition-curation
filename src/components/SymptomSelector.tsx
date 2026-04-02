@@ -3,7 +3,7 @@ interface Props {
   onChange: (symptoms: string[]) => void
 }
 
-const SYMPTOM_CATEGORIES = [
+export const SYMPTOM_CATEGORIES = [
   { category: '활력/피로', symbol: '◆', color: '#E63329', symptoms: ['피곤해요', '기운이 없어요', '만성피로예요', '아침에 일어나기 힘들어요'] },
   { category: '눈 건강', symbol: '○', color: '#1B4FD8', symptoms: ['눈꺼풀이 떨려요', '눈이 건조해요', '눈이 침침해요', '눈이 자주 충혈돼요'] },
   { category: '수면', symbol: '△', color: '#111111', symptoms: ['잠이 잘 안와요', '자도 피곤해요', '수면의 질이 나빠요', '자다가 자주 깨요'] },
@@ -16,15 +16,19 @@ const SYMPTOM_CATEGORIES = [
   { category: '체중/대사', symbol: '☐', color: '#111111', symptoms: ['살이 잘 안빠져요', '기초대사량을 높이고 싶어요', '체지방을 줄이고 싶어요'] },
 ]
 
-export default function SymptomSelector({ selected, onChange }: Props) {
+export default function SymptomSelector({ selected, onChange, selectedCategories }: Props) {
   function toggle(symptom: string) {
     if (selected.includes(symptom)) onChange(selected.filter(s => s !== symptom))
     else onChange([...selected, symptom])
   }
 
+  const categoriesToShow = selectedCategories 
+    ? SYMPTOM_CATEGORIES.filter(c => selectedCategories.includes(c.category))
+    : SYMPTOM_CATEGORIES
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
-      {SYMPTOM_CATEGORIES.map(({ category, symbol, color, symptoms }) => (
+      {categoriesToShow.map(({ category, symbol, color, symptoms }) => (
         <div key={category}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <span style={{ fontSize: 16, color, fontWeight: 700, width: 20 }}>{symbol}</span>
