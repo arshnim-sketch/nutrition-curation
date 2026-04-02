@@ -13,7 +13,8 @@
 
 function doPost(e) {
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var doc = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1snY5bFW2cAlguPMi9L05w5zjWMDE0M7UETZ4kNyAKrM/edit");
+    var sheet = doc.getActiveSheet();
     var data = JSON.parse(e.postData.contents);
 
     // 헤더가 없으면 추가
