@@ -11,7 +11,7 @@ const PRIORITY_CONFIG = {
 }
 
 export default function ProductCard({ item }: Props) {
-  const { product, reason, priority, matchedSymptoms } = item
+  const { product, reason, priority, matchedSymptoms, takingAdvice } = item
   const cfg = PRIORITY_CONFIG[priority]
 
   return (
@@ -44,6 +44,14 @@ export default function ProductCard({ item }: Props) {
         <div style={{ background: '#F5F0E8', border: '2px solid #111111', padding: '10px 14px' }}>
           <p style={{ fontSize: 13, color: '#111111', lineHeight: 1.6 }}>{reason}</p>
         </div>
+
+        {/* 복용 가이드 */}
+        {takingAdvice && (
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+            <span style={{ fontSize: 11, color: '#1B4FD8', fontWeight: 700, flexShrink: 0 }}>◷</span>
+            <p style={{ fontSize: 12, color: '#1B4FD8', fontWeight: 600 }}>{takingAdvice}</p>
+          </div>
+        )}
 
         {/* 증상 태그 */}
         {matchedSymptoms.length > 0 && (

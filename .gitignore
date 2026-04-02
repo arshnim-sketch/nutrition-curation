@@ -5,3 +5,4 @@ dist/
 .env.*.local
 scraper/node_modules/
 scraper/dist/
+.vercel

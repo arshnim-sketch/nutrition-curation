@@ -25,8 +25,8 @@ export default function SymptomPage({ member, onBack, onResult }: Props) {
     const updatedMember: FamilyMember = { ...member, symptoms: selected }
     dispatch({ type: 'UPDATE_MEMBER', payload: updatedMember })
     try {
-      const { products: recommended, summary, setName, nutrientWarnings } = await curateSupplements(updatedMember, products as Product[])
-      const result: CurationResult = { memberId: member.id, products: recommended, summary, setName, nutrientWarnings, createdAt: new Date().toISOString() }
+      const { products: recommended, summary, setName, nutrientBalance, interactions } = await curateSupplements(updatedMember, products as Product[])
+      const result: CurationResult = { memberId: member.id, products: recommended, summary, setName, nutrientBalance, interactions, createdAt: new Date().toISOString() }
       dispatch({ type: 'SET_CURATION', payload: result })
       onResult()
     } catch (err) {

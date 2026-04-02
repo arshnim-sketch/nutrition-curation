@@ -1,6 +1,6 @@
 import { useAppContext } from '../store/AppContext'
 import ProductCard from '../components/ProductCard'
-import type { FamilyMember, RecommendedProduct } from '../types'
+import type { FamilyMember, RecommendedProduct, NutrientBalance, SupplementInteraction } from '../types'
 
 interface Props {
   member: FamilyMember
@@ -9,6 +9,77 @@ interface Props {
 }
 
 const PRIORITY_ORDER: Record<string, number> = { high: 0, medium: 1, low: 2 }
+
+const STATUS_CONFIG = {
+  optimal: { label: 'OPTIMAL', bg: '#E8F5E9', border: '#4CAF50', text: '#2E7D32', bar: '#4CAF50' },
+  low:     { label: 'LOW',     bg: '#E3F2FD', border: '#1B4FD8', text: '#1B4FD8', bar: '#1B4FD8' },
+  caution: { label: 'CAUTION', bg: '#FFFBE6', border: '#F5C800', text: '#B8860B', bar: '#F5C800' },
+  excess:  { label: 'EXCESS',  bg: '#FFF0F0', border: '#E63329', text: '#E63329', bar: '#E63329' },
+}
+
+const INTERACTION_CONFIG = {
+  negative: { label: '주의', bg: '#FFF0F0', border: '#E63329', icon: '✕' },
+  positive: { label: '시너지', bg: '#E8F5E9', border: '#4CAF50', icon: '↑' },
+  timing:   { label: '복용시간', bg: '#FFFBE6', border: '#F5C800', icon: '◷' },
+}
+
+function NutrientRow({ b }: { b: NutrientBalance }) {
+  const cfg = STATUS_CONFIG[b.status]
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: '1px solid #E8E8E0' }}>
+      <div style={{ minWidth: 80 }}>
+        <span style={{ fontSize: 12, fontWeight: 700, color: '#111111' }}>{b.nutrient}</span>
+      </div>
+      <div style={{ flex: 1 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+          <span style={{ fontSize: 10, color: '#888888' }}>권장 {b.rda} / 상한 {b.ul}</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: cfg.text }}>{b.estimatedDaily}</span>
+        </div>
+        <div style={{ height: 6, background: '#E8E8E0', borderRadius: 0 }}>
+          <div style={{
+            height: '100%',
+            background: cfg.bar,
+            width: b.status === 'excess' ? '100%' : b.status === 'optimal' ? '60%' : b.status === 'caution' ? '85%' : '30%',
+            transition: 'width 0.4s',
+          }} />
+        </div>
+      </div>
+      <span style={{
+        fontSize: 9, fontWeight: 700, letterSpacing: '0.5px',
+        color: cfg.text, background: cfg.bg,
+        border: `1.5px solid ${cfg.border}`,
+        padding: '2px 6px', flexShrink: 0,
+      }}>
+        {cfg.label}
+      </span>
+    </div>
+  )
+}
+
+function InteractionCard({ ix }: { ix: SupplementInteraction }) {
+  const cfg = INTERACTION_CONFIG[ix.type]
+  return (
+    <div style={{ background: cfg.bg, border: `2px solid ${cfg.border}`, padding: '14px 16px', marginBottom: 8 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+        <span style={{ fontSize: 13, fontWeight: 700, color: cfg.border }}>{cfg.icon}</span>
+        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '1.5px', color: cfg.border, textTransform: 'uppercase' as const }}>
+          {cfg.label}
+        </span>
+        <span style={{ fontSize: 10, color: '#888888' }}>
+          {ix.nutrientsInvolved.join(' · ')}
+        </span>
+      </div>
+      <p style={{ fontSize: 11, color: '#888888', marginBottom: 4 }}>
+        {ix.involvedProducts.join(' + ')}
+      </p>
+      <p style={{ fontSize: 13, color: '#111111', lineHeight: 1.6, marginBottom: 6 }}>{ix.description}</p>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
+        <span style={{ fontSize: 10, fontWeight: 700, color: cfg.border, flexShrink: 0, paddingTop: 1 }}>→</span>
+        <p style={{ fontSize: 12, color: '#444444', lineHeight: 1.5, fontWeight: 600 }}>{ix.advice}</p>
+      </div>
+    </div>
+  )
+}
 
 export default function CurationResult({ member, onBack, onReselect }: Props) {
   const { state } = useAppContext()
@@ -33,6 +104,10 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
   const totalOriginalPrice = sorted.reduce((sum, item) => sum + (item.product.originalPrice ?? item.product.price), 0)
   const createdAt = new Date(result.createdAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
 
+  const negativeInteractions = (result.interactions ?? []).filter(i => i.type === 'negative')
+  const positiveInteractions = (result.interactions ?? []).filter(i => i.type === 'positive')
+  const timingInteractions = (result.interactions ?? []).filter(i => i.type === 'timing')
+
   return (
     <div style={{ minHeight: '100vh', background: '#F5F0E8' }}>
       <header style={{ background: '#111111', position: 'sticky', top: 0, zIndex: 10 }}>
@@ -50,6 +125,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
       </header>
 
       <main className="max-w-2xl mx-auto px-6 py-8" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+
         {/* 증상 태그 */}
         {member.symptoms.length > 0 && (
           <div>
@@ -73,10 +149,10 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
             <div style={{ width: 10, height: 10, background: '#F5C800' }} />
             <p style={{ fontSize: 11, fontWeight: 700, color: '#F5C800', letterSpacing: '2px', textTransform: 'uppercase' }}>AI ANALYSIS</p>
           </div>
-          <p style={{ fontSize: 14, color: '#FFFFFF', lineHeight: 1.7, fontWeight: 400 }}>{result.summary}</p>
+          <p style={{ fontSize: 14, color: '#FFFFFF', lineHeight: 1.7 }}>{result.summary}</p>
         </div>
 
-        {/* 세트 구성 요약 */}
+        {/* 세트 구성 */}
         <div style={{ background: '#111111', border: '3px solid #111111', boxShadow: '5px 5px 0 #E63329', padding: '20px 24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
             <div>
@@ -93,8 +169,6 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
               <p style={{ fontSize: 10, color: '#888888', marginTop: 2 }}>총 {sorted.length}개 제품</p>
             </div>
           </div>
-
-          {/* 세트 구성 목록 (링크 포함) */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {sorted.map((item, idx) => (
               <a key={item.product.id}
@@ -103,22 +177,23 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                 rel="noopener noreferrer"
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '10px 14px',
-                  background: '#1A1A1A',
-                  border: '1.5px solid #333333',
+                  padding: '10px 14px', background: '#1A1A1A', border: '1.5px solid #333333',
                   textDecoration: 'none',
-                  transition: 'border-color 0.15s',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <span style={{
-                    fontSize: 10, fontWeight: 700, letterSpacing: '1px',
+                    fontSize: 10, fontWeight: 700, letterSpacing: '1px', minWidth: 24,
                     color: idx === 0 ? '#E63329' : idx === 1 ? '#F5C800' : '#888888',
-                    minWidth: 24,
                   }}>
                     {String(idx + 1).padStart(2, '0')}
                   </span>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF' }}>{item.product.name}</span>
+                  <div>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF' }}>{item.product.name}</p>
+                    {item.takingAdvice && (
+                      <p style={{ fontSize: 10, color: '#F5C800', marginTop: 2 }}>{item.takingAdvice}</p>
+                    )}
+                  </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
                   <span style={{ fontSize: 13, fontWeight: 700, color: '#F5C800' }}>{item.product.price.toLocaleString()}원</span>
@@ -129,38 +204,65 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
           </div>
         </div>
 
-        {/* 영양소 중복/과다 경고 */}
-        {result.nutrientWarnings && result.nutrientWarnings.length > 0 && (
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#111111', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 10 }}>
-              ⚠ NUTRIENT OVERLAP
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {result.nutrientWarnings.map((w, i) => (
-                <div key={i} style={{
-                  background: w.severity === 'danger' ? '#FFF0F0' : '#FFFBE6',
-                  border: `2px solid ${w.severity === 'danger' ? '#E63329' : '#F5C800'}`,
-                  padding: '12px 16px',
-                  display: 'flex', alignItems: 'flex-start', gap: 10,
-                }}>
-                  <span style={{
-                    fontSize: 11, fontWeight: 700,
-                    color: w.severity === 'danger' ? '#E63329' : '#B8860B',
-                    letterSpacing: '1px', flexShrink: 0, paddingTop: 1,
-                  }}>
-                    {w.severity === 'danger' ? '초과' : '주의'}
-                  </span>
-                  <div>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: '#111111', marginRight: 6 }}>{w.nutrient}</span>
-                    <span style={{ fontSize: 12, color: '#444444', lineHeight: 1.5 }}>{w.warning}</span>
-                  </div>
-                </div>
+        {/* 영양소 균형 */}
+        {result.nutrientBalance && result.nutrientBalance.length > 0 && (
+          <div style={{ background: '#FFFFFF', border: '3px solid #111111', boxShadow: '5px 5px 0 #111111', padding: '20px 24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <div style={{ width: 10, height: 10, background: '#111111' }} />
+              <p style={{ fontSize: 11, fontWeight: 700, color: '#111111', letterSpacing: '2px', textTransform: 'uppercase' }}>
+                NUTRIENT BALANCE
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
+              {Object.entries(STATUS_CONFIG).map(([key, cfg]) => (
+                <span key={key} style={{ fontSize: 9, fontWeight: 700, color: cfg.text, background: cfg.bg, border: `1.5px solid ${cfg.border}`, padding: '2px 6px' }}>
+                  {cfg.label}
+                </span>
               ))}
             </div>
+            {result.nutrientBalance.map((b, i) => (
+              <NutrientRow key={i} b={b} />
+            ))}
           </div>
         )}
 
-        {/* 개별 제품 카드 */}
+        {/* 상호작용 분석 */}
+        {result.interactions && result.interactions.length > 0 && (
+          <div>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#111111', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 12 }}>
+              INTERACTIONS — {result.interactions.length}건
+            </p>
+
+            {negativeInteractions.length > 0 && (
+              <div style={{ marginBottom: 12 }}>
+                <p style={{ fontSize: 10, fontWeight: 700, color: '#E63329', letterSpacing: '1px', marginBottom: 8 }}>
+                  ✕ 주의 필요
+                </p>
+                {negativeInteractions.map((ix, i) => <InteractionCard key={i} ix={ix} />)}
+              </div>
+            )}
+
+            {timingInteractions.length > 0 && (
+              <div style={{ marginBottom: 12 }}>
+                <p style={{ fontSize: 10, fontWeight: 700, color: '#B8860B', letterSpacing: '1px', marginBottom: 8 }}>
+                  ◷ 복용 시간 가이드
+                </p>
+                {timingInteractions.map((ix, i) => <InteractionCard key={i} ix={ix} />)}
+              </div>
+            )}
+
+            {positiveInteractions.length > 0 && (
+              <div>
+                <p style={{ fontSize: 10, fontWeight: 700, color: '#2E7D32', letterSpacing: '1px', marginBottom: 8 }}>
+                  ↑ 시너지 효과
+                </p>
+                {positiveInteractions.map((ix, i) => <InteractionCard key={i} ix={ix} />)}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 개별 제품 상세 */}
         <div>
           <p style={{ fontSize: 11, fontWeight: 700, color: '#111111', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 14 }}>
             PRODUCT DETAIL — {sorted.length}개
@@ -174,26 +276,20 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
 
         {/* 버튼 */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 8 }}>
-          <button
-            onClick={onReselect}
-            style={{
-              width: '100%', padding: '14px 0', fontSize: 14, fontWeight: 700,
-              letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer',
-              border: '3px solid #111111', background: '#F5C800', color: '#111111',
-              boxShadow: '4px 4px 0 #111111', fontFamily: 'Space Grotesk, sans-serif',
-            }}
-          >
+          <button onClick={onReselect} style={{
+            width: '100%', padding: '14px 0', fontSize: 14, fontWeight: 700,
+            letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer',
+            border: '3px solid #111111', background: '#F5C800', color: '#111111',
+            boxShadow: '4px 4px 0 #111111', fontFamily: 'Space Grotesk, sans-serif',
+          }}>
             ↺ 다시 선택하기
           </button>
-          <button
-            onClick={onBack}
-            style={{
-              width: '100%', padding: '14px 0', fontSize: 14, fontWeight: 700,
-              letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer',
-              border: '3px solid #111111', background: '#FFFFFF', color: '#111111',
-              fontFamily: 'Space Grotesk, sans-serif',
-            }}
-          >
+          <button onClick={onBack} style={{
+            width: '100%', padding: '14px 0', fontSize: 14, fontWeight: 700,
+            letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer',
+            border: '3px solid #111111', background: '#FFFFFF', color: '#111111',
+            fontFamily: 'Space Grotesk, sans-serif',
+          }}>
             ← 홈으로
           </button>
         </div>
