@@ -162,17 +162,34 @@ async function scrapeProductPage(
   }
 }
 
+async function fetchSitemapIds(page: import('playwright').Page): Promise<number[]> {
+  try {
+    await page.goto('https://www.yakssamall.com/sitemap.xml', { timeout: 20000 })
+    const content = await page.content()
+    const ids = [...content.matchAll(/shop_view\/(\d+)/g)].map(m => parseInt(m[1]))
+    return [...new Set(ids)].sort((a, b) => a - b)
+  } catch {
+    // 사이트맵 실패 시 기본 범위로 fallback
+    const ids = []
+    for (let i = 1134; i <= 1517; i++) ids.push(i)
+    return ids
+  }
+}
+
 async function main() {
   console.log('크롤링 시작...')
   const browser = await chromium.launch({ headless: true })
   const page = await browser.newPage()
 
-  const results: Product[] = []
-  const START_ID = 1437
-  const END_ID = 1514
+  console.log('사이트맵에서 상품 ID 목록 수집 중...')
+  const IDS = await fetchSitemapIds(page)
+  console.log(`총 ${IDS.length}개 ID 발견\n`)
 
-  for (let id = START_ID; id <= END_ID; id++) {
-    console.log(`[${id}/${END_ID}] 크롤링 중...`)
+  const results: Product[] = []
+
+  for (let i = 0; i < IDS.length; i++) {
+    const id = IDS[i]
+    console.log(`[${i + 1}/${IDS.length}] ID ${id} 크롤링 중...`)
     const product = await scrapeProductPage(page, id)
     if (product && product.name) {
       results.push(product)
@@ -181,7 +198,7 @@ async function main() {
       console.log(`  - 스킵`)
     }
     // 서버 부하 방지
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(400)
   }
 
   await browser.close()
