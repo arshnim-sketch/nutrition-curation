@@ -64,13 +64,14 @@ export async function recordToGoogleSheets(
   }
 
   try {
-    await fetch(SHEETS_URL, {
+    const response = await fetch(SHEETS_URL, {
       method: 'POST',
-      mode: 'no-cors', // Apps Script Web App은 CORS를 지원하지 않으므로 no-cors 모드 사용
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
       body: JSON.stringify(payload),
     })
-    console.log('[Google Sheets] 데이터가 기록되었습니다.')
+    console.log('[Google Sheets] 데이터 전송 완료, 응답 상태:', response.status)
     return { success: true }
   } catch (err) {
     console.error('[Google Sheets] 기록 실패:', err)
