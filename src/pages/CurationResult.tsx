@@ -108,6 +108,33 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
   const positiveInteractions = (result.interactions ?? []).filter(i => i.type === 'positive')
   const timingInteractions = (result.interactions ?? []).filter(i => i.type === 'timing')
 
+  async function handleShare() {
+    let text = `💊 [${member.name}]님의 맞춤 영양제 큐레이션\n`
+    text += `✨ 선택 증상: ${member.symptoms.join(', ')}\n\n`
+    text += `🎁 추천 세트: ${result.setName}\n`
+    sorted.forEach((p, idx) => {
+      text += `  ${idx + 1}. ${p.product.name} (${p.product.price.toLocaleString()}원)\n`
+    })
+    
+    text += `💰 예상 총액: ${totalPrice.toLocaleString()}원\n\n`
+    text += `📝 AI 분석 요약:\n${result.summary}\n\n`
+    text += `👉 나만의 영양제 조합 찾아보기:\n${window.location.origin}`
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${member.name}님의 영양제 큐레이션`,
+          text: text,
+        })
+      } else {
+        await navigator.clipboard.writeText(text)
+        alert('공유 텍스트가 클립보드에 복사되었습니다!\n원하는 곳에 붙여넣기 해보세요.')
+      }
+    } catch (err) {
+      console.error('공유 실패:', err)
+    }
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#F5F0E8' }}>
       <header style={{ background: '#111111', position: 'sticky', top: 0, zIndex: 10 }}>
@@ -115,12 +142,15 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
           <button onClick={onBack} style={{ color: '#F5C800', fontWeight: 700, fontSize: 14, cursor: 'pointer', background: 'none', border: 'none' }}>
             ← BACK
           </button>
-          <div>
+          <div style={{ flex: 1 }}>
             <h1 style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 700, letterSpacing: '-0.5px' }}>
               {member.name}의 큐레이션
             </h1>
             <p style={{ color: '#AAAAAA', fontSize: 11, letterSpacing: '1px' }}>{createdAt}</p>
           </div>
+          <button onClick={handleShare} style={{ background: 'none', border: 'none', color: '#FFFFFF', fontSize: 20, cursor: 'pointer' }} title="공유하기">
+            📤
+          </button>
         </div>
       </header>
 
@@ -276,6 +306,15 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
 
         {/* 버튼 */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 8 }}>
+          <button onClick={handleShare} style={{
+            width: '100%', padding: '14px 0', fontSize: 14, fontWeight: 700,
+            letterSpacing: '1px', cursor: 'pointer',
+            border: '3px solid #111111', background: '#111111', color: '#FFFFFF',
+            boxShadow: '4px 4px 0 #E63329', fontFamily: 'Space Grotesk, sans-serif',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          }}>
+            <span>📤</span> 결과 공유하기
+          </button>
           <button onClick={onReselect} style={{
             width: '100%', padding: '14px 0', fontSize: 14, fontWeight: 700,
             letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer',
