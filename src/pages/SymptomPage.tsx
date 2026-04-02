@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAppContext } from '../store/AppContext'
 import SymptomSelector from '../components/SymptomSelector'
 import { curateSupplements } from '../lib/openai'
+import { recordToGoogleSheets } from '../lib/googleSheets'
 import products from '../data/products.json'
 import type { FamilyMember, CurationResult, Product } from '../types'
 
@@ -28,6 +29,10 @@ export default function SymptomPage({ member, onBack, onResult }: Props) {
       const { products: recommended, summary, setName, nutrientBalance, interactions } = await curateSupplements(updatedMember, products as Product[])
       const result: CurationResult = { memberId: member.id, products: recommended, summary, setName, nutrientBalance, interactions, createdAt: new Date().toISOString() }
       dispatch({ type: 'SET_CURATION', payload: result })
+
+      // Google Sheets에 데이터 기록 (비동기, 결과 페이지 전환을 블로킹하지 않음)
+      recordToGoogleSheets(updatedMember, result).catch(console.error)
+
       onResult()
     } catch (err) {
       console.error(err)
