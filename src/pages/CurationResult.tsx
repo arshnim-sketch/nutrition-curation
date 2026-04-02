@@ -292,6 +292,17 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
           </div>
         )}
 
+        {/* 개별 제품 상세 전에 공유하기 버튼 (사용자 요청) */}
+        <button onClick={handleShare} style={{
+          width: '100%', padding: '14px 0', fontSize: 14, fontWeight: 700,
+          letterSpacing: '1px', cursor: 'pointer', marginBottom: 8,
+          border: '3px solid #111111', background: '#1B4FD8', color: '#FFFFFF',
+          boxShadow: '4px 4px 0 #111111', fontFamily: 'Space Grotesk, sans-serif',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+        }}>
+          <span>📤</span> 카카오톡 등으로 결과 공유하기
+        </button>
+
         {/* 개별 제품 상세 */}
         <div>
           <p style={{ fontSize: 11, fontWeight: 700, color: '#111111', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 14 }}>
