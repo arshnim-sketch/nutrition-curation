@@ -24,24 +24,44 @@ const INTERACTION_CONFIG = {
   timing:   { label: '복용시간', bg: '#FFFBE6', border: '#F5C800', icon: '◷' },
 }
 
-function NutrientRow({ b }: { b: NutrientBalance }) {
-  const cfg = STATUS_CONFIG[b.status]
+function NutrientRow({ b, activeMatchingCount, totalMatchingCount }: { b: NutrientBalance, activeMatchingCount: number, totalMatchingCount: number }) {
+  const isFullyExcluded = totalMatchingCount > 0 && activeMatchingCount === 0;
+  const isPartiallyExcluded = totalMatchingCount > 0 && activeMatchingCount > 0 && activeMatchingCount < totalMatchingCount;
+  
+  let cfg = STATUS_CONFIG[b.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.optimal;
+  
+  let barWidth = b.status === 'excess' ? 100 : b.status === 'optimal' ? 60 : b.status === 'caution' ? 85 : 30;
+  
+  if (isFullyExcluded) {
+    barWidth = 0;
+    cfg = { label: 'EXCLUDED', bg: '#F5F5F5', border: '#CCCCCC', text: '#888888', bar: '#CCCCCC' };
+  } else if (isPartiallyExcluded) {
+    // reduce bar width visually to show it dropped
+    barWidth = Math.max(10, barWidth * (activeMatchingCount / totalMatchingCount));
+  }
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: '1px solid #E8E8E0' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: '1px solid #E8E8E0', opacity: isFullyExcluded ? 0.5 : 1 }}>
       <div style={{ minWidth: 80 }}>
-        <span style={{ fontSize: 12, fontWeight: 700, color: '#111111' }}>{b.nutrient}</span>
+        <span style={{ fontSize: 12, fontWeight: 700, color: isFullyExcluded ? '#888888' : '#111111', textDecoration: isFullyExcluded ? 'line-through' : 'none' }}>
+          {b.nutrient}
+        </span>
       </div>
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-          <span style={{ fontSize: 10, color: '#888888' }}>권장 {b.rda} / 상한 {b.ul}</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: cfg.text }}>{b.estimatedDaily}</span>
+          <span style={{ fontSize: 10, color: '#888888', textDecoration: isFullyExcluded ? 'line-through' : 'none', letterSpacing: '-0.3px' }}>
+            권장 {b.rda} / 상한 {b.ul}
+          </span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: cfg.text, textDecoration: isFullyExcluded ? 'line-through' : 'none' }}>
+            {isFullyExcluded ? '0' : b.estimatedDaily} {isPartiallyExcluded && <span style={{fontSize: 9, color: '#E63329'}}>(▼ 감소)</span>}
+          </span>
         </div>
-        <div style={{ height: 6, background: '#E8E8E0', borderRadius: 0 }}>
+        <div style={{ height: 6, background: '#E8E8E0', borderRadius: 0, overflow: 'hidden' }}>
           <div style={{
             height: '100%',
             background: cfg.bar,
-            width: b.status === 'excess' ? '100%' : b.status === 'optimal' ? '60%' : b.status === 'caution' ? '85%' : '30%',
-            transition: 'width 0.4s',
+            width: `${barWidth}%`,
+            transition: 'width 0.4s ease-out, background 0.4s',
           }} />
         </div>
       </div>
@@ -50,6 +70,7 @@ function NutrientRow({ b }: { b: NutrientBalance }) {
         color: cfg.text, background: cfg.bg,
         border: `1.5px solid ${cfg.border}`,
         padding: '2px 6px', flexShrink: 0,
+        transition: 'all 0.4s'
       }}>
         {cfg.label}
       </span>
@@ -272,9 +293,29 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                 </span>
               ))}
             </div>
-            {result.nutrientBalance.map((b, i) => (
-              <NutrientRow key={i} b={b} />
-            ))}
+            {result.nutrientBalance.map((b, i) => {
+              const normalize = (s: string) => s.replace(/\s/g, '').toLowerCase();
+              const bNutrient = normalize(b.nutrient);
+              
+              const matchingProducts = sorted.filter(p => 
+                p.product.nutrients.some(n => {
+                  const nNorm = normalize(n);
+                  return bNutrient.includes(nNorm) || nNorm.includes(bNutrient);
+                })
+              );
+              
+              const totalMatchingCount = matchingProducts.length;
+              const activeMatchingCount = matchingProducts.filter(p => !excludedProductIds.has(p.product.id)).length;
+              
+              return (
+                <NutrientRow 
+                  key={i} 
+                  b={b} 
+                  activeMatchingCount={activeMatchingCount} 
+                  totalMatchingCount={totalMatchingCount} 
+                />
+              )
+            })}
           </div>
         )}
 
