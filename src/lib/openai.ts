@@ -60,7 +60,7 @@ export async function curateSupplements(
 - positive: 흡수 시너지(비타민D↔칼슘, 비타민C↔철분, 오메가3↔지용성 비타민)
 - timing: 복용 시간 분리 권장 (카페인과의 간격, 공복/식후 구분)
 
-nutrientBalance는 추천 세트에서 실제 포함될 주요 영양소만 분석하세요 (최대 8개).
+nutrientBalance는 추천 세트에 포함된 **모든 주요 영양소(최소 8개 이상, 가급적 상세하게)**를 찾아내어 KDRIs(권장량/상한량)와 대비해 분석하세요.
 상호작용이 없으면 빈 배열 []로 응답하세요.`
 
   const userMessage = `

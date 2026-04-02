@@ -217,23 +217,34 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
               const excluded = excludedProductIds.has(item.product.id)
               return (
                 <div key={item.product.id}
+                  onClick={() => toggleProduct(item.product.id)}
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '10px 14px', background: excluded ? '#333333' : '#1A1A1A', border: '1.5px solid #333333',
-                    opacity: excluded ? 0.6 : 1, transition: 'all 0.2s',
+                    padding: '12px 14px', background: excluded ? '#333333' : '#1A1A1A', border: excluded ? '1.5px solid #444444' : '1.5px solid #F5C800',
+                    opacity: excluded ? 0.6 : 1, transition: 'all 0.2s', cursor: 'pointer',
                   }}
                 >
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', flex: 1 }}>
-                    <input type="checkbox" checked={!excluded} onChange={() => toggleProduct(item.product.id)} style={{ accentColor: '#F5C800', width: 16, height: 16, cursor: 'pointer' }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1 }}>
+                    {/* 커스텀 체크박스 UI */}
+                    <div style={{
+                      width: 22, height: 22, borderRadius: 4,
+                      border: `2px solid ${excluded ? '#888888' : '#F5C800'}`,
+                      background: excluded ? 'transparent' : '#F5C800',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0, transition: 'all 0.2s'
+                    }}>
+                      {!excluded && <span style={{ color: '#111111', fontSize: 14, fontWeight: 900 }}>✓</span>}
+                    </div>
+                    
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                        <a href={item.product.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', textDecoration: excluded ? 'line-through' : 'none' }} onClick={e => e.stopPropagation()}>
-                         {item.product.name} ↗
+                         {item.product.name} <span style={{ fontSize: 10, color: '#888888', fontWeight: 400 }}>↗</span>
                        </a>
                        {item.takingAdvice && (
-                         <p style={{ fontSize: 10, color: '#F5C800', marginTop: 2, textDecoration: excluded ? 'line-through' : 'none' }}>{item.takingAdvice}</p>
+                         <p style={{ fontSize: 10, color: '#F5C800', marginTop: 4, textDecoration: excluded ? 'line-through' : 'none' }}>{item.takingAdvice}</p>
                        )}
                     </div>
-                  </label>
+                  </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
                     <span style={{ fontSize: 13, fontWeight: 700, color: excluded ? '#888888' : '#F5C800', textDecoration: excluded ? 'line-through' : 'none' }}>
                       {item.product.price.toLocaleString()}원
