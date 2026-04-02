@@ -98,18 +98,18 @@ ${products.map(p => `[${p.id}] ${p.name} - 주요 성분: ${p.nutrients.join(', 
   }
 
   const recommendedProducts: RecommendedProduct[] = (result.recommendations ?? [])
-    .map((rec) => {
+    .flatMap((rec) => {
       const product = products.find(p => p.id === rec.productId)
-      if (!product) return null
-      return {
+      if (!product) return []
+      const item: RecommendedProduct = {
         product,
         reason: rec.reason,
         priority: rec.priority,
         matchedSymptoms: rec.matchedSymptoms,
-        takingAdvice: rec.takingAdvice,
-      } satisfies RecommendedProduct
+        ...(rec.takingAdvice ? { takingAdvice: rec.takingAdvice } : {}),
+      }
+      return [item]
     })
-    .filter((item): item is RecommendedProduct => item !== null)
 
   return {
     products: recommendedProducts,
