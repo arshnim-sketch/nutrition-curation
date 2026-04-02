@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useAppContext } from '../store/AppContext'
 import ProductCard from '../components/ProductCard'
 import type { FamilyMember, RecommendedProduct, NutrientBalance, SupplementInteraction } from '../types'
@@ -84,6 +85,16 @@ function InteractionCard({ ix }: { ix: SupplementInteraction }) {
 export default function CurationResult({ member, onBack, onReselect }: Props) {
   const { state } = useAppContext()
   const result = state.curationResults[member.id]
+  const [excludedProductIds, setExcludedProductIds] = useState<Set<string>>(new Set())
+
+  function toggleProduct(id: string) {
+    setExcludedProductIds(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
 
   if (!result) {
     return (
@@ -100,8 +111,10 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
     (a, b) => (PRIORITY_ORDER[a.priority] ?? 3) - (PRIORITY_ORDER[b.priority] ?? 3)
   )
 
-  const totalPrice = sorted.reduce((sum, item) => sum + item.product.price, 0)
-  const totalOriginalPrice = sorted.reduce((sum, item) => sum + (item.product.originalPrice ?? item.product.price), 0)
+  const activeProducts = sorted.filter(item => !excludedProductIds.has(item.product.id))
+
+  const totalPrice = activeProducts.reduce((sum, item) => sum + item.product.price, 0)
+  const totalOriginalPrice = activeProducts.reduce((sum, item) => sum + (item.product.originalPrice ?? item.product.price), 0)
   const createdAt = new Date(result.createdAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
 
   const negativeInteractions = (result.interactions ?? []).filter(i => i.type === 'negative')
@@ -112,7 +125,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
     let text = `💊 [${member.name}]님의 맞춤 영양제 큐레이션\n`
     text += `✨ 선택 증상: ${member.symptoms.join(', ')}\n\n`
     text += `🎁 추천 세트: ${result.setName}\n`
-    sorted.forEach((p, idx) => {
+    activeProducts.forEach((p, idx) => {
       text += `  ${idx + 1}. ${p.product.name} (${p.product.price.toLocaleString()}원)\n`
     })
     
@@ -196,41 +209,39 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                 </p>
               )}
               <p style={{ fontSize: 24, fontWeight: 700, color: '#F5C800' }}>{totalPrice.toLocaleString()}원</p>
-              <p style={{ fontSize: 10, color: '#888888', marginTop: 2 }}>총 {sorted.length}개 제품</p>
+              <p style={{ fontSize: 10, color: '#888888', marginTop: 2 }}>총 {activeProducts.length}개 선택됨</p>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {sorted.map((item, idx) => (
-              <a key={item.product.id}
-                href={item.product.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '10px 14px', background: '#1A1A1A', border: '1.5px solid #333333',
-                  textDecoration: 'none',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{
-                    fontSize: 10, fontWeight: 700, letterSpacing: '1px', minWidth: 24,
-                    color: idx === 0 ? '#E63329' : idx === 1 ? '#F5C800' : '#888888',
-                  }}>
-                    {String(idx + 1).padStart(2, '0')}
-                  </span>
-                  <div>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF' }}>{item.product.name}</p>
-                    {item.takingAdvice && (
-                      <p style={{ fontSize: 10, color: '#F5C800', marginTop: 2 }}>{item.takingAdvice}</p>
-                    )}
+            {sorted.map(item => {
+              const excluded = excludedProductIds.has(item.product.id)
+              return (
+                <div key={item.product.id}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '10px 14px', background: excluded ? '#333333' : '#1A1A1A', border: '1.5px solid #333333',
+                    opacity: excluded ? 0.6 : 1, transition: 'all 0.2s',
+                  }}
+                >
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', flex: 1 }}>
+                    <input type="checkbox" checked={!excluded} onChange={() => toggleProduct(item.product.id)} style={{ accentColor: '#F5C800', width: 16, height: 16, cursor: 'pointer' }} />
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                       <a href={item.product.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', textDecoration: excluded ? 'line-through' : 'none' }} onClick={e => e.stopPropagation()}>
+                         {item.product.name} ↗
+                       </a>
+                       {item.takingAdvice && (
+                         <p style={{ fontSize: 10, color: '#F5C800', marginTop: 2, textDecoration: excluded ? 'line-through' : 'none' }}>{item.takingAdvice}</p>
+                       )}
+                    </div>
+                  </label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: excluded ? '#888888' : '#F5C800', textDecoration: excluded ? 'line-through' : 'none' }}>
+                      {item.product.price.toLocaleString()}원
+                    </span>
                   </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#F5C800' }}>{item.product.price.toLocaleString()}원</span>
-                  <span style={{ fontSize: 11, color: '#F5C800' }}>→</span>
-                </div>
-              </a>
-            ))}
+              )
+            })}
           </div>
         </div>
 
