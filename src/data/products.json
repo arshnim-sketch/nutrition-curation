@@ -1,0 +1,944 @@
+[
+  {
+    "id": "1437",
+    "name": "파워업 마시는 알부민",
+    "price": 11900,
+    "originalPrice": 29750,
+    "url": "https://www.yakssamall.com/shop_view/1437",
+    "image": "https://cdn.imweb.me/thumbnail/20260330/391b3c3e7af14.jpg",
+    "category": "기타",
+    "description": "파워업 마시는 알부민. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "파워업 마시는 알부민"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1438",
+    "name": "먹는 레티놀C 1000",
+    "price": 47700,
+    "originalPrice": 119250,
+    "url": "https://www.yakssamall.com/shop_view/1438",
+    "image": "https://cdn.imweb.me/thumbnail/20251104/4a0e4bbd0a6d1.jpg",
+    "category": "기타",
+    "description": "먹는 레티놀C 1000. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "먹는 레티놀C 1000"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1439",
+    "name": "영진 흑도라지 진액",
+    "price": 27900,
+    "originalPrice": 69750,
+    "url": "https://www.yakssamall.com/shop_view/1439",
+    "image": "https://cdn.imweb.me/thumbnail/20250903/1233ae7b5dc4d.jpg",
+    "category": "기타",
+    "description": "영진 흑도라지 진액. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "영진 흑도라지 진액"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1440",
+    "name": "링포유 레몬맛",
+    "price": 6900,
+    "originalPrice": 17250,
+    "url": "https://www.yakssamall.com/shop_view/1440",
+    "image": "https://cdn.imweb.me/thumbnail/20250616/9f4e57e1515a3.jpg",
+    "category": "기타",
+    "description": "링포유 레몬맛. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "링포유 레몬맛"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1441",
+    "name": "링포유 파인애플맛",
+    "price": 6900,
+    "originalPrice": 17250,
+    "url": "https://www.yakssamall.com/shop_view/1441",
+    "image": "https://cdn.imweb.me/thumbnail/20250616/94ed441a107e9.jpg",
+    "category": "기타",
+    "description": "링포유 파인애플맛. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "링포유 파인애플맛"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1442",
+    "name": "이뮨 듀오 멀티비타맥스 24병",
+    "price": 47900,
+    "originalPrice": 95800,
+    "url": "https://www.yakssamall.com/shop_view/1442",
+    "image": "https://cdn.imweb.me/thumbnail/20250723/2e51882a27caa.jpg",
+    "category": "기타",
+    "description": "이뮨 듀오 멀티비타맥스 24병. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "이뮨 듀오 멀티비타맥스 24병"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1443",
+    "name": "익스트림 크레아프로틴",
+    "price": 42900,
+    "originalPrice": 107250,
+    "url": "https://www.yakssamall.com/shop_view/1443",
+    "image": "https://cdn.imweb.me/thumbnail/20250718/4080a7fb4b439.jpg",
+    "category": "기타",
+    "description": "익스트림 크레아프로틴. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "익스트림 크레아프로틴"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1446",
+    "name": "워너비 알파-CD 알파시클로덱스트린",
+    "price": 9900,
+    "originalPrice": 24750,
+    "url": "https://www.yakssamall.com/shop_view/1446",
+    "image": "https://cdn.imweb.me/thumbnail/20250624/64e55c17d7fd0.jpg",
+    "category": "기타",
+    "description": "워너비 알파-CD 알파시클로덱스트린. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "워너비 알파-CD 알파시클로덱스트린"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1447",
+    "name": "유기농 동결건조 컬리케일 100%",
+    "price": 24900,
+    "originalPrice": 62250,
+    "url": "https://www.yakssamall.com/shop_view/1447",
+    "image": "https://cdn.imweb.me/thumbnail/20251001/06f3d89c9087e.jpg",
+    "category": "기타",
+    "description": "유기농 동결건조 컬리케일 100%. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "유기농 동결건조 컬리케일 100%"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1448",
+    "name": "특허받은 듀얼액션 유산균",
+    "price": 11900,
+    "originalPrice": 29750,
+    "url": "https://www.yakssamall.com/shop_view/1448",
+    "image": "https://cdn.imweb.me/thumbnail/20260318/cec551977a3d7.jpg",
+    "category": "유산균",
+    "description": "장 건강·소화 개선·면역 지원.",
+    "nutrients": [
+      "유산균"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1449",
+    "name": "유기농 엑스트라버진 올리브오일",
+    "price": 12900,
+    "originalPrice": 32250,
+    "url": "https://www.yakssamall.com/shop_view/1449",
+    "image": "https://cdn.imweb.me/thumbnail/20250827/9e5ba09795f9a.jpg",
+    "category": "기타",
+    "description": "유기농 엑스트라버진 올리브오일. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "유기농 엑스트라버진 올리브오일"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1450",
+    "name": "리포좀 멀티비타민 골드",
+    "price": 12900,
+    "originalPrice": 32250,
+    "url": "https://www.yakssamall.com/shop_view/1450",
+    "image": "https://cdn.imweb.me/thumbnail/20250813/ba62e797db422.jpg",
+    "category": "비타민/미네랄",
+    "description": "리포좀 멀티비타민 골드. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "리포좀 멀티비타민 골드"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1452",
+    "name": "대원제약 프리미엄 지속성 중성 비타민C",
+    "price": 13900,
+    "originalPrice": 34750,
+    "url": "https://www.yakssamall.com/shop_view/1452",
+    "image": "https://cdn.imweb.me/thumbnail/20250716/4da73a7829687.jpg",
+    "category": "면역",
+    "description": "항산화·피로회복·면역 강화. 흡수율 높은 고함량.",
+    "nutrients": [
+      "비타민C"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1453",
+    "name": "유기농 데일리 엑스트라버진 올리브오일 100%",
+    "price": 12900,
+    "originalPrice": 32250,
+    "url": "https://www.yakssamall.com/shop_view/1453",
+    "image": "https://cdn.imweb.me/thumbnail/20250711/b42b50f257de7.jpg",
+    "category": "기타",
+    "description": "유기농 데일리 엑스트라버진 올리브오일 100%. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "유기농 데일리 엑스트라버진 올리브오일 100%"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1454",
+    "name": "유기농 엑스트라버진 올리브오일 100%",
+    "price": 23900,
+    "originalPrice": 59750,
+    "url": "https://www.yakssamall.com/shop_view/1454",
+    "image": "https://cdn.imweb.me/thumbnail/20250716/337ec3a9316a2.jpg",
+    "category": "기타",
+    "description": "유기농 엑스트라버진 올리브오일 100%. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "유기농 엑스트라버진 올리브오일 100%"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1456",
+    "name": "유기농 푸룬 100%",
+    "price": 10900,
+    "originalPrice": 27250,
+    "url": "https://www.yakssamall.com/shop_view/1456",
+    "image": "https://cdn.imweb.me/thumbnail/20250731/ce9ef9db6fb25.jpg",
+    "category": "기타",
+    "description": "유기농 푸룬 100%. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "유기농 푸룬 100%"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1457",
+    "name": "푸룬 비움 젤리",
+    "price": 21900,
+    "originalPrice": 54750,
+    "url": "https://www.yakssamall.com/shop_view/1457",
+    "image": "https://cdn.imweb.me/thumbnail/20250731/a2521352068b5.jpg",
+    "category": "기타",
+    "description": "푸룬 비움 젤리. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "푸룬 비움 젤리"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1458",
+    "name": "포켓 치카 구강 유산균 밸런스",
+    "price": 13900,
+    "originalPrice": 34750,
+    "url": "https://www.yakssamall.com/shop_view/1458",
+    "image": "https://cdn.imweb.me/thumbnail/20250731/dd732941f4e9d.jpg",
+    "category": "유산균",
+    "description": "장 건강·소화 개선·면역 지원.",
+    "nutrients": [
+      "유산균"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1462",
+    "name": "칼슘 마그네슘 아연 플러스 비타민D",
+    "price": 18600,
+    "originalPrice": 46500,
+    "url": "https://www.yakssamall.com/shop_view/1462",
+    "image": "https://cdn.imweb.me/thumbnail/20251201/cf6b718ebe9f8.jpg",
+    "category": "뼈/관절",
+    "description": "면역력·뼈 건강에 도움. 햇빛 부족한 현대인 필수.",
+    "nutrients": [
+      "비타민D",
+      "마그네슘",
+      "칼슘",
+      "아연"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1464",
+    "name": "덴마크 유산균 골드",
+    "price": 21800,
+    "originalPrice": 54500,
+    "url": "https://www.yakssamall.com/shop_view/1464",
+    "image": "https://cdn.imweb.me/thumbnail/20250814/ec3f449cf796a.jpg",
+    "category": "유산균",
+    "description": "장 건강·소화 개선·면역 지원.",
+    "nutrients": [
+      "유산균"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1465",
+    "name": "두뇌 인지력 PS 포스파티딜세린",
+    "price": 19900,
+    "originalPrice": 49750,
+    "url": "https://www.yakssamall.com/shop_view/1465",
+    "image": "https://cdn.imweb.me/thumbnail/20260220/daceb18331597.jpg",
+    "category": "두뇌/집중",
+    "description": "기억력·인지 기능 개선.",
+    "nutrients": [
+      "포스파티딜세린"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1466",
+    "name": "올인원 이뮨 멀티팩",
+    "price": 27900,
+    "originalPrice": 69750,
+    "url": "https://www.yakssamall.com/shop_view/1466",
+    "image": "https://cdn.imweb.me/thumbnail/20250902/e0d86af336743.jpg",
+    "category": "기타",
+    "description": "올인원 이뮨 멀티팩. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "올인원 이뮨 멀티팩"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1467",
+    "name": "메가바이탈 비타민C 3000",
+    "price": 14700,
+    "originalPrice": 36750,
+    "url": "https://www.yakssamall.com/shop_view/1467",
+    "image": "https://cdn.imweb.me/thumbnail/20260220/0baae2904c229.jpg",
+    "category": "면역",
+    "description": "항산화·피로회복·면역 강화. 흡수율 높은 고함량.",
+    "nutrients": [
+      "비타민C"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1468",
+    "name": "식물성 멜라토닌 함유 멜라바닌",
+    "price": 11900,
+    "originalPrice": 29750,
+    "url": "https://www.yakssamall.com/shop_view/1468",
+    "image": "https://cdn.imweb.me/thumbnail/20251029/5b80cf6023aab.jpg",
+    "category": "수면",
+    "description": "수면 유도·생체리듬 조절.",
+    "nutrients": [
+      "멜라토닌"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1469",
+    "name": "오독오독 애사비 크런치 볼",
+    "price": 16900,
+    "originalPrice": 42250,
+    "url": "https://www.yakssamall.com/shop_view/1469",
+    "image": "https://cdn.imweb.me/thumbnail/20260212/e037b0049e5a6.jpg",
+    "category": "기타",
+    "description": "오독오독 애사비 크런치 볼. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "오독오독 애사비 크런치 볼"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1470",
+    "name": "항산화&면역 건강 그린프로폴리스 츄어블",
+    "price": 15900,
+    "originalPrice": 39750,
+    "url": "https://www.yakssamall.com/shop_view/1470",
+    "image": "https://cdn.imweb.me/thumbnail/20250910/e6dff86819939.jpg",
+    "category": "면역",
+    "description": "항산화&면역 건강 그린프로폴리스 츄어블. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "항산화&면역 건강 그린프로폴리스 츄어블"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1471",
+    "name": "파워업 알부민 정",
+    "price": 13200,
+    "originalPrice": 33000,
+    "url": "https://www.yakssamall.com/shop_view/1471",
+    "image": "https://cdn.imweb.me/thumbnail/20260309/71d3e23c5feae.jpg",
+    "category": "기타",
+    "description": "파워업 알부민 정. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "파워업 알부민 정"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1472",
+    "name": "콜레스테롤 앤 혈당케어",
+    "price": 15900,
+    "originalPrice": 39750,
+    "url": "https://www.yakssamall.com/shop_view/1472",
+    "image": "https://cdn.imweb.me/thumbnail/20260318/1a88d8c2ba2a4.jpg",
+    "category": "기타",
+    "description": "콜레스테롤 앤 혈당케어. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "콜레스테롤 앤 혈당케어"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1474",
+    "name": "수용성 커큐민 퀘르세틴 브로멜라인",
+    "price": 10800,
+    "originalPrice": 27000,
+    "url": "https://www.yakssamall.com/shop_view/1474",
+    "image": "https://cdn.imweb.me/thumbnail/20250917/bc0c2d775e7f2.jpg",
+    "category": "기타",
+    "description": "항염·항산화·간 건강.",
+    "nutrients": [
+      "커큐민"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1475",
+    "name": "뼈건강엔 비타민K2+D3",
+    "price": 9800,
+    "originalPrice": 24500,
+    "url": "https://www.yakssamall.com/shop_view/1475",
+    "image": "https://cdn.imweb.me/thumbnail/20251015/99b1b8560b3e0.jpg",
+    "category": "뼈/관절",
+    "description": "뼈건강엔 비타민K2+D3. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "비타민K"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1477",
+    "name": "빼리스타 다이어트 카페 헤이즐넛향",
+    "price": 11900,
+    "originalPrice": 29750,
+    "url": "https://www.yakssamall.com/shop_view/1477",
+    "image": "https://cdn.imweb.me/thumbnail/20250930/51b64179063a0.jpg",
+    "category": "체중/대사",
+    "description": "빼리스타 다이어트 카페 헤이즐넛향. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "빼리스타 다이어트 카페 헤이즐넛향"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1478",
+    "name": "종근당 황제침향단 30환",
+    "price": 32300,
+    "originalPrice": 80750,
+    "url": "https://www.yakssamall.com/shop_view/1478",
+    "image": "https://cdn.imweb.me/thumbnail/20251024/31a441c69dd74.jpg",
+    "category": "기타",
+    "description": "종근당 황제침향단 30환. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "종근당 황제침향단 30환"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1479",
+    "name": "글루타민 ZMA 1300",
+    "price": 21200,
+    "originalPrice": 53000,
+    "url": "https://www.yakssamall.com/shop_view/1479",
+    "image": "https://cdn.imweb.me/thumbnail/20251022/a232c9dc5e6e2.jpg",
+    "category": "기타",
+    "description": "글루타민 ZMA 1300. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "글루타민 ZMA 1300"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1480",
+    "name": "파워업 아르기닌 10000",
+    "price": 25800,
+    "originalPrice": 64500,
+    "url": "https://www.yakssamall.com/shop_view/1480",
+    "image": "https://cdn.imweb.me/thumbnail/20251103/4e6309f97dbe8.jpg",
+    "category": "기타",
+    "description": "혈행 개선·성장 호르몬 분비 지원.",
+    "nutrients": [
+      "파워업 아르기닌 10000"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1481",
+    "name": "보령 알부민 프리미엄 맥스",
+    "price": 15600,
+    "originalPrice": 39000,
+    "url": "https://www.yakssamall.com/shop_view/1481",
+    "image": "https://cdn.imweb.me/thumbnail/20251029/2e48680a8ac8a.jpg",
+    "category": "기타",
+    "description": "보령 알부민 프리미엄 맥스. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "보령 알부민 프리미엄 맥스"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1482",
+    "name": "유기농 컬리케일 100",
+    "price": 23800,
+    "originalPrice": 59500,
+    "url": "https://www.yakssamall.com/shop_view/1482",
+    "image": "https://cdn.imweb.me/thumbnail/20251103/ddfb4de1ef44e.jpg",
+    "category": "기타",
+    "description": "유기농 컬리케일 100. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "유기농 컬리케일 100"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1483",
+    "name": "보령 간엔포스 M",
+    "price": 29900,
+    "originalPrice": 74750,
+    "url": "https://www.yakssamall.com/shop_view/1483",
+    "image": "https://cdn.imweb.me/thumbnail/20251105/d1cb2391044b1.jpg",
+    "category": "기타",
+    "description": "보령 간엔포스 M. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "보령 간엔포스 M"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1484",
+    "name": "보령 콜레스테롤 홍국 알티지 오메가3",
+    "price": 29700,
+    "originalPrice": 74250,
+    "url": "https://www.yakssamall.com/shop_view/1484",
+    "image": "https://cdn.imweb.me/thumbnail/20251121/414f6743e7154.jpg",
+    "category": "오메가3",
+    "description": "혈중 중성지방 감소·두뇌·눈 건강에 도움.",
+    "nutrients": [
+      "오메가3"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1486",
+    "name": "164 루테인지아잔틴 알티지오메가3 GR 80캡슐",
+    "price": 49900,
+    "originalPrice": 124750,
+    "url": "https://www.yakssamall.com/shop_view/1486",
+    "image": "https://cdn.imweb.me/thumbnail/20251118/8622e720865f4.jpg",
+    "category": "눈건강",
+    "description": "혈중 중성지방 감소·두뇌·눈 건강에 도움.",
+    "nutrients": [
+      "오메가3",
+      "루테인"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1487",
+    "name": "파로효소 골드라벨",
+    "price": 19000,
+    "originalPrice": 47500,
+    "url": "https://www.yakssamall.com/shop_view/1487",
+    "image": "https://cdn.imweb.me/thumbnail/20260211/56a2e29b97369.jpg",
+    "category": "기타",
+    "description": "파로효소 골드라벨. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "파로효소 골드라벨"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1488",
+    "name": "엑스트라버진 올리브오일 식물성캡슐",
+    "price": 14800,
+    "originalPrice": 37000,
+    "url": "https://www.yakssamall.com/shop_view/1488",
+    "image": "https://cdn.imweb.me/thumbnail/20251210/78a6de202ec89.jpg",
+    "category": "기타",
+    "description": "엑스트라버진 올리브오일 식물성캡슐. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "엑스트라버진 올리브오일 식물성캡슐"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1489",
+    "name": "리얼 석류정",
+    "price": 8700,
+    "originalPrice": 21750,
+    "url": "https://www.yakssamall.com/shop_view/1489",
+    "image": "https://cdn.imweb.me/thumbnail/20251204/99817d15f33c8.jpg",
+    "category": "기타",
+    "description": "리얼 석류정. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "리얼 석류정"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1490",
+    "name": "종근당 실크 알부민 골드",
+    "price": 48900,
+    "originalPrice": 122250,
+    "url": "https://www.yakssamall.com/shop_view/1490",
+    "image": "https://cdn.imweb.me/thumbnail/20251128/115b0c99cf8c0.jpg",
+    "category": "기타",
+    "description": "종근당 실크 알부민 골드. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "종근당 실크 알부민 골드"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1491",
+    "name": "국내산 꿀 생강도라지 스틱",
+    "price": 11900,
+    "originalPrice": 29750,
+    "url": "https://www.yakssamall.com/shop_view/1491",
+    "image": "https://cdn.imweb.me/thumbnail/20251216/ed83eb851c098.jpg",
+    "category": "기타",
+    "description": "국내산 꿀 생강도라지 스틱. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "국내산 꿀 생강도라지 스틱"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1492",
+    "name": "OPTIMA BCAA 타우린 7000+",
+    "price": 24900,
+    "originalPrice": 62250,
+    "url": "https://www.yakssamall.com/shop_view/1492",
+    "image": "https://cdn.imweb.me/thumbnail/20251203/3cba19e2a2ad0.jpg",
+    "category": "기타",
+    "description": "OPTIMA BCAA 타우린 7000+. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "OPTIMA BCAA 타우린 7000+"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1493",
+    "name": "로얄 액상 실크알부민 파워샷",
+    "price": 13900,
+    "originalPrice": 34750,
+    "url": "https://www.yakssamall.com/shop_view/1493",
+    "image": "https://cdn.imweb.me/thumbnail/20260224/24e6cddb7393d.jpg",
+    "category": "기타",
+    "description": "로얄 액상 실크알부민 파워샷. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "로얄 액상 실크알부민 파워샷"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1494",
+    "name": "고려 홍삼정 스틱 365",
+    "price": 19900,
+    "originalPrice": 49750,
+    "url": "https://www.yakssamall.com/shop_view/1494",
+    "image": "https://cdn.imweb.me/thumbnail/20260308/f2ccae6f77d61.jpg",
+    "category": "피로개선",
+    "description": "면역력·피로개선·체력 보강.",
+    "nutrients": [
+      "홍삼"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1495",
+    "name": "파워업 마시는 마그네슘 스피드",
+    "price": 21900,
+    "originalPrice": 54750,
+    "url": "https://www.yakssamall.com/shop_view/1495",
+    "image": "https://cdn.imweb.me/thumbnail/20251219/7fe060bccb3a9.jpg",
+    "category": "비타민/미네랄",
+    "description": "근육 이완·수면 개선·스트레스 완화.",
+    "nutrients": [
+      "마그네슘"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1496",
+    "name": "로얄 액상 실크알부민 파워샷 100포",
+    "price": 38900,
+    "originalPrice": 97250,
+    "url": "https://www.yakssamall.com/shop_view/1496",
+    "image": "https://cdn.imweb.me/thumbnail/20251229/61584fc25fa9c.jpg",
+    "category": "기타",
+    "description": "로얄 액상 실크알부민 파워샷 100포. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "로얄 액상 실크알부민 파워샷 100포"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1497",
+    "name": "워너비 슬림 잔티젠 다이어트",
+    "price": 18900,
+    "originalPrice": 47250,
+    "url": "https://www.yakssamall.com/shop_view/1497",
+    "image": "https://cdn.imweb.me/thumbnail/20260121/3f2618224fb93.jpg",
+    "category": "체중/대사",
+    "description": "워너비 슬림 잔티젠 다이어트. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "워너비 슬림 잔티젠 다이어트"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1498",
+    "name": "날씬 다이어트&유산균",
+    "price": 11900,
+    "originalPrice": 29750,
+    "url": "https://www.yakssamall.com/shop_view/1498",
+    "image": "https://cdn.imweb.me/thumbnail/20260130/0bdc5f6112d0b.jpg",
+    "category": "유산균",
+    "description": "장 건강·소화 개선·면역 지원.",
+    "nutrients": [
+      "유산균"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1499",
+    "name": "종근당 침향환 진 60환",
+    "price": 37800,
+    "originalPrice": 94500,
+    "url": "https://www.yakssamall.com/shop_view/1499",
+    "image": "https://cdn.imweb.me/thumbnail/20260129/bb5f348b89dc3.jpg",
+    "category": "기타",
+    "description": "종근당 침향환 진 60환. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "종근당 침향환 진 60환"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1500",
+    "name": "그레이스 블루베리 퓨레 100",
+    "price": 50900,
+    "originalPrice": 127250,
+    "url": "https://www.yakssamall.com/shop_view/1500",
+    "image": "https://cdn.imweb.me/thumbnail/20260318/c0a597a52fd7b.jpg",
+    "category": "기타",
+    "description": "그레이스 블루베리 퓨레 100. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "그레이스 블루베리 퓨레 100"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1501",
+    "name": "아르기닌 젤리스틱",
+    "price": 18900,
+    "originalPrice": 47250,
+    "url": "https://www.yakssamall.com/shop_view/1501",
+    "image": "https://cdn.imweb.me/thumbnail/20260206/0bdc3301c8521.jpg",
+    "category": "기타",
+    "description": "혈행 개선·성장 호르몬 분비 지원.",
+    "nutrients": [
+      "아르기닌 젤리스틱"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1502",
+    "name": "아마조니아 아사이베리 동결건조분말",
+    "price": 14900,
+    "originalPrice": 37250,
+    "url": "https://www.yakssamall.com/shop_view/1502",
+    "image": "https://cdn.imweb.me/thumbnail/20260310/978dd9eb5f127.jpg",
+    "category": "기타",
+    "description": "아마조니아 아사이베리 동결건조분말. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "아마조니아 아사이베리 동결건조분말"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1503",
+    "name": "종근당 홍침원골드 선물세트",
+    "price": 28900,
+    "originalPrice": 72250,
+    "url": "https://www.yakssamall.com/shop_view/1503",
+    "image": "https://cdn.imweb.me/thumbnail/20260212/255bbfe3e162f.jpg",
+    "category": "기타",
+    "description": "종근당 홍침원골드 선물세트. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "종근당 홍침원골드 선물세트"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1504",
+    "name": "덴마크 유산균 핑크",
+    "price": 23800,
+    "originalPrice": 59500,
+    "url": "https://www.yakssamall.com/shop_view/1504",
+    "image": "https://cdn.imweb.me/thumbnail/20260212/be37512a56d21.jpg",
+    "category": "유산균",
+    "description": "장 건강·소화 개선·면역 지원.",
+    "nutrients": [
+      "유산균"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1505",
+    "name": "엑스트라버진 올리브오일 식물성 캡슐",
+    "price": 17700,
+    "originalPrice": 44250,
+    "url": "https://www.yakssamall.com/shop_view/1505",
+    "image": "https://cdn.imweb.me/thumbnail/20260212/15e41cfef5e27.jpg",
+    "category": "기타",
+    "description": "엑스트라버진 올리브오일 식물성 캡슐. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "엑스트라버진 올리브오일 식물성 캡슐"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1506",
+    "name": "프리미엄 트리플 비타민C 1000",
+    "price": 19200,
+    "originalPrice": 48000,
+    "url": "https://www.yakssamall.com/shop_view/1506",
+    "image": "https://cdn.imweb.me/thumbnail/20260227/4f8748b80d3b2.jpg",
+    "category": "면역",
+    "description": "항산화·피로회복·면역 강화. 흡수율 높은 고함량.",
+    "nutrients": [
+      "비타민C"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1507",
+    "name": "순 유기농 블루베리 스틱 100",
+    "price": 21900,
+    "originalPrice": 54750,
+    "url": "https://www.yakssamall.com/shop_view/1507",
+    "image": "https://cdn.imweb.me/thumbnail/20260227/0215b1afd9eda.jpg",
+    "category": "기타",
+    "description": "순 유기농 블루베리 스틱 100. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "순 유기농 블루베리 스틱 100"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1508",
+    "name": "메가바이탈 나이아신 500",
+    "price": 17800,
+    "originalPrice": 44500,
+    "url": "https://www.yakssamall.com/shop_view/1508",
+    "image": "https://cdn.imweb.me/thumbnail/20260305/7b0546b8d224f.jpg",
+    "category": "기타",
+    "description": "메가바이탈 나이아신 500. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "메가바이탈 나이아신 500"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1509",
+    "name": "유기농 하스카프 베리 분말 100%",
+    "price": 18900,
+    "originalPrice": 47250,
+    "url": "https://www.yakssamall.com/shop_view/1509",
+    "image": "https://cdn.imweb.me/thumbnail/20260310/2ce821834d3db.jpg",
+    "category": "기타",
+    "description": "유기농 하스카프 베리 분말 100%. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "유기농 하스카프 베리 분말 100%"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1510",
+    "name": "유기농 엑스트라버진 올리브 토마토 샷",
+    "price": 17900,
+    "originalPrice": 44750,
+    "url": "https://www.yakssamall.com/shop_view/1510",
+    "image": "https://cdn.imweb.me/thumbnail/20260319/2aa44d44457a1.jpg",
+    "category": "기타",
+    "description": "유기농 엑스트라버진 올리브 토마토 샷. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "유기농 엑스트라버진 올리브 토마토 샷"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1511",
+    "name": "NMN 리바이탈",
+    "price": 23600,
+    "originalPrice": 59000,
+    "url": "https://www.yakssamall.com/shop_view/1511",
+    "image": "https://cdn.imweb.me/thumbnail/20260319/b61c3c462f828.jpg",
+    "category": "기타",
+    "description": "NMN 리바이탈. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "NMN 리바이탈"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1512",
+    "name": "말차라떼 100만 효소&유산균",
+    "price": 21800,
+    "originalPrice": 54500,
+    "url": "https://www.yakssamall.com/shop_view/1512",
+    "image": "https://cdn.imweb.me/thumbnail/20260319/a780e18961dc5.jpg",
+    "category": "유산균",
+    "description": "장 건강·소화 개선·면역 지원.",
+    "nutrients": [
+      "유산균"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1513",
+    "name": "프로폴리스 포도당 캔디",
+    "price": 12790,
+    "originalPrice": 31975,
+    "url": "https://www.yakssamall.com/shop_view/1513",
+    "image": "https://cdn.imweb.me/thumbnail/20260320/207ebc0e4d8dc.jpg",
+    "category": "기타",
+    "description": "프로폴리스 포도당 캔디. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "프로폴리스 포도당 캔디"
+    ],
+    "brand": "약싸몰"
+  },
+  {
+    "id": "1514",
+    "name": "김소형원방 순녹용 진액",
+    "price": 19900,
+    "originalPrice": 49750,
+    "url": "https://www.yakssamall.com/shop_view/1514",
+    "image": "https://cdn.imweb.me/thumbnail/20260327/e6caf0188d8d8.jpg",
+    "category": "기타",
+    "description": "김소형원방 순녹용 진액. 건강 기능 지원 영양제.",
+    "nutrients": [
+      "김소형원방 순녹용 진액"
+    ],
+    "brand": "약싸몰"
+  }
+]

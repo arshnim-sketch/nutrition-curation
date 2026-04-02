@@ -1,0 +1,203 @@
+import { useAppContext } from '../store/AppContext'
+import ProductCard from '../components/ProductCard'
+import type { FamilyMember, RecommendedProduct } from '../types'
+
+interface Props {
+  member: FamilyMember
+  onBack: () => void
+  onReselect: () => void
+}
+
+const PRIORITY_ORDER: Record<string, number> = { high: 0, medium: 1, low: 2 }
+
+export default function CurationResult({ member, onBack, onReselect }: Props) {
+  const { state } = useAppContext()
+  const result = state.curationResults[member.id]
+
+  if (!result) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#F5F0E8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ color: '#888888', marginBottom: 16 }}>큐레이션 결과가 없습니다.</p>
+          <button onClick={onBack} style={{ color: '#E63329', fontWeight: 700, cursor: 'pointer', background: 'none', border: 'none', fontSize: 14 }}>돌아가기</button>
+        </div>
+      </div>
+    )
+  }
+
+  const sorted: RecommendedProduct[] = [...result.products].sort(
+    (a, b) => (PRIORITY_ORDER[a.priority] ?? 3) - (PRIORITY_ORDER[b.priority] ?? 3)
+  )
+
+  const totalPrice = sorted.reduce((sum, item) => sum + item.product.price, 0)
+  const totalOriginalPrice = sorted.reduce((sum, item) => sum + (item.product.originalPrice ?? item.product.price), 0)
+  const createdAt = new Date(result.createdAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#F5F0E8' }}>
+      <header style={{ background: '#111111', position: 'sticky', top: 0, zIndex: 10 }}>
+        <div className="max-w-2xl mx-auto px-6 py-5 flex items-center gap-4">
+          <button onClick={onBack} style={{ color: '#F5C800', fontWeight: 700, fontSize: 14, cursor: 'pointer', background: 'none', border: 'none' }}>
+            ← BACK
+          </button>
+          <div>
+            <h1 style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 700, letterSpacing: '-0.5px' }}>
+              {member.name}의 큐레이션
+            </h1>
+            <p style={{ color: '#AAAAAA', fontSize: 11, letterSpacing: '1px' }}>{createdAt}</p>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-2xl mx-auto px-6 py-8" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        {/* 증상 태그 */}
+        {member.symptoms.length > 0 && (
+          <div>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#E63329', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 10 }}>SYMPTOMS</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {member.symptoms.map(symptom => (
+                <span key={symptom} style={{
+                  fontSize: 12, fontWeight: 600, color: '#111111',
+                  background: '#F5C800', border: '2px solid #111111', padding: '4px 10px',
+                }}>
+                  {symptom}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* AI 요약 */}
+        <div style={{ background: '#1B4FD8', border: '3px solid #111111', boxShadow: '5px 5px 0 #111111', padding: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <div style={{ width: 10, height: 10, background: '#F5C800' }} />
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#F5C800', letterSpacing: '2px', textTransform: 'uppercase' }}>AI ANALYSIS</p>
+          </div>
+          <p style={{ fontSize: 14, color: '#FFFFFF', lineHeight: 1.7, fontWeight: 400 }}>{result.summary}</p>
+        </div>
+
+        {/* 세트 구성 요약 */}
+        <div style={{ background: '#111111', border: '3px solid #111111', boxShadow: '5px 5px 0 #E63329', padding: '20px 24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 700, color: '#F5C800', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 4 }}>CURATED SET</p>
+              <p style={{ fontSize: 20, fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.5px' }}>{result.setName}</p>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              {totalOriginalPrice > totalPrice && (
+                <p style={{ fontSize: 12, color: '#888888', textDecoration: 'line-through', marginBottom: 2 }}>
+                  {totalOriginalPrice.toLocaleString()}원
+                </p>
+              )}
+              <p style={{ fontSize: 24, fontWeight: 700, color: '#F5C800' }}>{totalPrice.toLocaleString()}원</p>
+              <p style={{ fontSize: 10, color: '#888888', marginTop: 2 }}>총 {sorted.length}개 제품</p>
+            </div>
+          </div>
+
+          {/* 세트 구성 목록 (링크 포함) */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {sorted.map((item, idx) => (
+              <a key={item.product.id}
+                href={item.product.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '10px 14px',
+                  background: '#1A1A1A',
+                  border: '1.5px solid #333333',
+                  textDecoration: 'none',
+                  transition: 'border-color 0.15s',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{
+                    fontSize: 10, fontWeight: 700, letterSpacing: '1px',
+                    color: idx === 0 ? '#E63329' : idx === 1 ? '#F5C800' : '#888888',
+                    minWidth: 24,
+                  }}>
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF' }}>{item.product.name}</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#F5C800' }}>{item.product.price.toLocaleString()}원</span>
+                  <span style={{ fontSize: 11, color: '#F5C800' }}>→</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* 영양소 중복/과다 경고 */}
+        {result.nutrientWarnings && result.nutrientWarnings.length > 0 && (
+          <div>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#111111', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 10 }}>
+              ⚠ NUTRIENT OVERLAP
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {result.nutrientWarnings.map((w, i) => (
+                <div key={i} style={{
+                  background: w.severity === 'danger' ? '#FFF0F0' : '#FFFBE6',
+                  border: `2px solid ${w.severity === 'danger' ? '#E63329' : '#F5C800'}`,
+                  padding: '12px 16px',
+                  display: 'flex', alignItems: 'flex-start', gap: 10,
+                }}>
+                  <span style={{
+                    fontSize: 11, fontWeight: 700,
+                    color: w.severity === 'danger' ? '#E63329' : '#B8860B',
+                    letterSpacing: '1px', flexShrink: 0, paddingTop: 1,
+                  }}>
+                    {w.severity === 'danger' ? '초과' : '주의'}
+                  </span>
+                  <div>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: '#111111', marginRight: 6 }}>{w.nutrient}</span>
+                    <span style={{ fontSize: 12, color: '#444444', lineHeight: 1.5 }}>{w.warning}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 개별 제품 카드 */}
+        <div>
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#111111', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 14 }}>
+            PRODUCT DETAIL — {sorted.length}개
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {sorted.map(item => (
+              <ProductCard key={item.product.id} item={item} />
+            ))}
+          </div>
+        </div>
+
+        {/* 버튼 */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 8 }}>
+          <button
+            onClick={onReselect}
+            style={{
+              width: '100%', padding: '14px 0', fontSize: 14, fontWeight: 700,
+              letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer',
+              border: '3px solid #111111', background: '#F5C800', color: '#111111',
+              boxShadow: '4px 4px 0 #111111', fontFamily: 'Space Grotesk, sans-serif',
+            }}
+          >
+            ↺ 다시 선택하기
+          </button>
+          <button
+            onClick={onBack}
+            style={{
+              width: '100%', padding: '14px 0', fontSize: 14, fontWeight: 700,
+              letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer',
+              border: '3px solid #111111', background: '#FFFFFF', color: '#111111',
+              fontFamily: 'Space Grotesk, sans-serif',
+            }}
+          >
+            ← 홈으로
+          </button>
+        </div>
+      </main>
+    </div>
+  )
+}
