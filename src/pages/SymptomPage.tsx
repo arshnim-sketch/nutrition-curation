@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAppContext } from '../store/AppContext'
-import SymptomSelector from '../components/SymptomSelector'
+import SymptomSelector, { SYMPTOM_CATEGORIES } from '../components/SymptomSelector'
 import { curateSupplements } from '../lib/openai'
 import { recordToGoogleSheets } from '../lib/googleSheets'
 import products from '../data/products.json'
@@ -14,6 +14,7 @@ interface Props {
 
 export default function SymptomPage({ member, onBack, onResult }: Props) {
   const { state, dispatch } = useAppContext()
+  const existingSymptoms = state.members.find(m => m.id === member.id)?.symptoms ?? []
   const initialCategories = SYMPTOM_CATEGORIES
     .filter(c => c.symptoms.some(s => existingSymptoms.includes(s)))
     .map(c => c.category)

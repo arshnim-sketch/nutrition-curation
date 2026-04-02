@@ -1,6 +1,7 @@
 interface Props {
   selected: string[]
   onChange: (symptoms: string[]) => void
+  selectedCategories?: string[]
 }
 
 export const SYMPTOM_CATEGORIES = [
