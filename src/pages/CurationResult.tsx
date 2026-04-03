@@ -201,6 +201,15 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                        {item.takingAdvice && (
                          <p style={{ fontSize: 10, color: '#F5C800', marginTop: 4, textDecoration: excluded ? 'line-through' : 'none' }}>{item.takingAdvice}</p>
                        )}
+                       {item.product.nutritionFacts && Object.keys(item.product.nutritionFacts).length > 0 && (
+                         <div style={{ marginTop: 6, opacity: excluded ? 0.3 : 1, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                           {Object.entries(item.product.nutritionFacts).map(([k, v], idx) => (
+                             <span key={idx} style={{ fontSize: 9, color: '#CCCCCC', background: '#333333', padding: '2px 6px', borderRadius: 2 }}>
+                               {k} <strong style={{color: '#EEEEEE'}}>{typeof v === 'string' ? v : String(v)}</strong>
+                             </span>
+                           ))}
+                         </div>
+                       )}
                     </div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
