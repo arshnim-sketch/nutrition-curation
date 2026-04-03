@@ -11,6 +11,45 @@ interface Props {
 
 const PRIORITY_ORDER: Record<string, number> = { high: 0, medium: 1, low: 2 }
 
+// 영양소 이름 정규화 (변형 → 표준)
+function canonicalizeNutrient(s: string): string {
+  const n = s.replace(/\s/g, '').toLowerCase()
+  const MAP: Record<string, string> = {
+    '철': '철분', '비타민d3': '비타민d', '비타민k1': '비타민k', '비타민k2': '비타민k',
+    '셀렌': '셀레늄', '니아신': '나이아신', '나이아신아마이드': '나이아신',
+    '아이오딘': '요오드', 'epa+dha': '오메가3', '비타민b12': '비타민b12',
+    '코엔자임q10': '코엔자임q10', 'coq10': '코엔자임q10',
+  }
+  return MAP[n] ?? n
+}
+
+// nutritionFacts에서 해당 영양소 실제 합산값 추출
+function sumNutrientFromFacts(nutrientName: string, prods: RecommendedProduct[]): string | null {
+  const target = canonicalizeNutrient(nutrientName)
+  const totals: Record<string, number> = {}
+
+  for (const item of prods) {
+    const facts = item.product.nutritionFacts
+    if (!facts) continue
+    for (const [k, rawV] of Object.entries(facts)) {
+      if (canonicalizeNutrient(k) !== target) continue
+      const v = typeof rawV === 'string' ? rawV : String(rawV)
+      const m = v.match(/([\d,]+(?:\.\d+)?)\s*(.+)/)
+      if (m) {
+        const num = parseFloat(m[1].replace(/,/g, ''))
+        const unit = m[2].trim()
+        totals[unit] = (totals[unit] ?? 0) + num
+      }
+      break
+    }
+  }
+
+  if (Object.keys(totals).length === 0) return null
+  return Object.entries(totals)
+    .map(([unit, n]) => `${n % 1 === 0 ? n : parseFloat(n.toFixed(1))} ${unit}`)
+    .join(' + ')
+}
+
 const STATUS_CONFIG = {
   optimal: { label: 'OPTIMAL', bg: '#E8F5E9', border: '#4CAF50', text: '#2E7D32', bar: '#4CAF50' },
   low:     { label: 'LOW',     bg: '#E3F2FD', border: '#1B4FD8', text: '#1B4FD8', bar: '#1B4FD8' },
@@ -271,6 +310,12 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                       ? Math.max(8, baseWidth * (activeMatchingCount / totalMatchingCount))
                       : baseWidth
 
+                  // 실제 nutritionFacts에서 합산값 우선 사용, 없으면 GPT 추정치 fallback
+                  const activeMatchingProds = matchingProducts.filter(p => !excludedProductIds.has(p.product.id))
+                  const actualDaily = isExcluded ? null : sumNutrientFromFacts(b.nutrient, activeMatchingProds)
+                  const displayValue = isExcluded ? '—'
+                    : actualDaily ?? (isSingleExcess ? '고함량' : b.estimatedDaily)
+
                   return (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <span style={{ fontSize: 10, color: cfg.text, width: 80, flexShrink: 0, opacity: isExcluded ? 0.4 : 1, textDecoration: isExcluded ? 'line-through' : 'none' }}>
@@ -280,7 +325,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                         <div style={{ height: '100%', background: cfg.bar, width: `${barWidth}%`, transition: 'width 0.35s ease-out, background 0.35s' }} />
                       </div>
                       <span style={{ fontSize: 9, fontWeight: 700, color: cfg.text, minWidth: 40, textAlign: 'right', opacity: isExcluded ? 0.4 : 1 }}>
-                        {isExcluded ? '—' : isSingleExcess ? '고함량' : b.estimatedDaily}
+                        {displayValue}
                       </span>
                     </div>
                   )
