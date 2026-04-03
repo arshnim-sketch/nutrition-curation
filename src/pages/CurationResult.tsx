@@ -247,9 +247,14 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                   const activeMatchingCount = matchingProducts.filter(p => !excludedProductIds.has(p.product.id)).length
                   const isExcluded = totalMatchingCount > 0 && activeMatchingCount === 0
 
+                  // 단일 제품만 초과: 의도된 고함량 제품 (주황) vs 복합 초과: 실제 경고 (빨강)
+                  const isSingleExcess = b.status === 'excess' && totalMatchingCount <= 1
+
                   const cfg = isExcluded
                     ? { bar: '#444444', text: '#666666' }
-                    : { bar: STATUS_CONFIG[b.status as keyof typeof STATUS_CONFIG]?.bar ?? '#4CAF50', text: STATUS_CONFIG[b.status as keyof typeof STATUS_CONFIG]?.text ?? '#4CAF50' }
+                    : isSingleExcess
+                      ? { bar: '#FF8C00', text: '#FF8C00' }
+                      : { bar: STATUS_CONFIG[b.status as keyof typeof STATUS_CONFIG]?.bar ?? '#4CAF50', text: STATUS_CONFIG[b.status as keyof typeof STATUS_CONFIG]?.text ?? '#4CAF50' }
 
                   const baseWidth = b.status === 'excess' ? 100 : b.status === 'optimal' ? 60 : b.status === 'caution' ? 85 : 30
                   const barWidth = isExcluded ? 0
@@ -266,7 +271,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                         <div style={{ height: '100%', background: cfg.bar, width: `${barWidth}%`, transition: 'width 0.35s ease-out, background 0.35s' }} />
                       </div>
                       <span style={{ fontSize: 9, fontWeight: 700, color: cfg.text, minWidth: 40, textAlign: 'right', opacity: isExcluded ? 0.4 : 1 }}>
-                        {isExcluded ? '—' : b.estimatedDaily}
+                        {isExcluded ? '—' : isSingleExcess ? '고함량' : b.estimatedDaily}
                       </span>
                     </div>
                   )

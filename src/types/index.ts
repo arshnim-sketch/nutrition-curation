@@ -18,6 +18,7 @@ export interface Product {
   description: string
   nutrients: string[]
   brand: string
+  nutritionFacts?: Record<string, string>
 }
 
 // 영양소별 하루 균형 분석

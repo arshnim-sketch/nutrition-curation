@@ -2,10 +2,12 @@
   "name": "yakssamall-scraper",
   "version": "1.0.0",
   "scripts": {
-    "scrape": "ts-node index.ts"
+    "scrape": "ts-node index.ts",
+    "enrich": "ts-node enrich_nutrition.ts"
   },
   "dependencies": {
-    "playwright": "^1.48.0"
+    "playwright": "^1.48.0",
+    "openai": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

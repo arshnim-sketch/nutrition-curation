@@ -71,10 +71,16 @@ nutrientBalance는 추천 세트에 포함된 **모든 영양소를 최소 10개
 성별: ${member.gender === 'male' ? '남성' : '여성'}
 증상/건강 목표: ${member.symptoms.join(', ')}
 
-추천 가능한 영양제 목록:
-${products.map(p => `[${p.id}] ${p.name} - 주요 성분: ${p.nutrients.join(', ')} - ${p.description}`).join('\n')}
+추천 가능한 영양제 목록 (실제 함량 포함):
+${products.map(p => {
+  const factsStr = p.nutritionFacts && Object.keys(p.nutritionFacts).length > 0
+    ? ` | 실제함량: ${Object.entries(p.nutritionFacts).map(([k, v]) => `${k} ${v}`).join(', ')}`
+    : ''
+  return `[${p.id}] ${p.name} - 주요 성분: ${p.nutrients.join(', ')} - ${p.description}${factsStr}`
+}).join('\n')}
 
-이 사람에게 가장 적합한 영양제를 최대 5개 선정하고, 영양소 균형과 상호작용을 철저히 분석해주세요.`
+이 사람에게 가장 적합한 영양제를 최대 5개 선정하고, 영양소 균형과 상호작용을 철저히 분석해주세요.
+nutrientBalance의 estimatedDaily는 위 실제함량 데이터를 기반으로 정확한 수치로 계산하세요.`
 
   const response = await client.chat.completions.create({
     model: 'gpt-4o',
