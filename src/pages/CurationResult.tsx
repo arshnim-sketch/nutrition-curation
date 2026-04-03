@@ -282,10 +282,8 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                 {result.nutrientBalance.map((b, i) => {
                   const normalize = (s: string) => s.replace(/\s/g, '').toLowerCase()
                   const bNutrient = normalize(b.nutrient)
-                  const isMulti = (p: RecommendedProduct) =>
-                    /멀티비타민|종합비타민|올인원비타민/.test(p.product.name.replace(/\s/g, ''))
+                  // nutrients 배열 기반 매칭 (멀티비타민은 스크래퍼에서 이미 21개 개별 영양소로 확장됨)
                   const matchingProducts = sorted.filter(p =>
-                    isMulti(p) ||
                     p.product.nutrients.some(n => {
                       const nNorm = normalize(n)
                       return bNutrient.includes(nNorm) || nNorm.includes(bNutrient)
