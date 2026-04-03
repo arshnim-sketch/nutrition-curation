@@ -13,43 +13,63 @@ const PRIORITY_ORDER: Record<string, number> = { high: 0, medium: 1, low: 2 }
 
 function getCatchphrase(symptoms: string[]): string {
   const s = symptoms.join(' ')
-  const matches: string[] = []
-  if (/피로|무기력|에너지|활력/.test(s)) matches.push('지쳐가고')
-  if (/수면|불면|잠/.test(s)) matches.push('못 자고')
-  if (/면역|감기|잦은/.test(s)) matches.push('면역이 무너지고')
-  if (/관절|근육|뼈|허리/.test(s)) matches.push('몸이 삐걱대고')
-  if (/소화|장|변비/.test(s)) matches.push('장이 망가지고')
-  if (/두뇌|집중|기억|인지/.test(s)) matches.push('뇌가 꺼져가고')
-  if (/피부|모발|탈모/.test(s)) matches.push('겉도 속도 무너지고')
-  if (/스트레스|불안|우울/.test(s)) matches.push('스트레스로 터지기 직전이고')
-  if (/체중|다이어트/.test(s)) matches.push('몸이 배신하고')
-  if (/눈|시력|눈피로/.test(s)) matches.push('눈이 망가지고')
+  const cats: string[] = []
+  if (/피로|무기력|에너지|활력/.test(s)) cats.push('피로')
+  if (/수면|불면|잠/.test(s)) cats.push('수면')
+  if (/면역|감기|잦은/.test(s)) cats.push('면역')
+  if (/관절|근육|뼈|허리/.test(s)) cats.push('관절')
+  if (/소화|장|변비/.test(s)) cats.push('소화')
+  if (/두뇌|집중|기억|인지/.test(s)) cats.push('뇌')
+  if (/피부|모발|탈모/.test(s)) cats.push('피부')
+  if (/스트레스|불안|우울/.test(s)) cats.push('멘탈')
+  if (/체중|다이어트/.test(s)) cats.push('체중')
+  if (/눈|시력|눈피로/.test(s)) cats.push('눈')
 
-  if (matches.length === 0) return '넌\n아픈 놈이야.'
-  if (matches.length === 1) {
-    // 단일 증상: 원래 강렬한 단독 문장
-    const single: Record<string, string> = {
-      '지쳐가고': '넌 지쳐\n쓰러지기 직전이야.',
-      '못 자고': '잠 못 자서\n몸이 망가지고 있어.',
-      '면역이 무너지고': '면역이\n바닥났어.',
-      '몸이 삐걱대고': '몸이\n삐걱대고 있어.',
-      '장이 망가지고': '장이\n엉망이야.',
-      '뇌가 꺼져가고': '뇌가\n꺼져가고 있어.',
-      '겉도 속도 무너지고': '몸속부터\n무너지고 있어.',
-      '스트레스로 터지기 직전이고': '스트레스로\n터지기 직전이야.',
-      '몸이 배신하고': '몸이\n배신하고 있어.',
-      '눈이 망가지고': '눈이\n망가지고 있어.',
+  const n = cats.length
+
+  if (n === 0) return '아픈 놈.\n딱히 설명도 필요 없어.'
+
+  if (n === 1) {
+    const map: Record<string, string> = {
+      '피로': '방전된 배터리.\n충전이 시급해.',
+      '수면': '눈은 감겼는데\n뇌는 출근 중.',
+      '면역': '방어막 붕괴.\n몸이 무방비 상태야.',
+      '관절': '삐걱대는 문.\n기름칠이 필요해.',
+      '소화': '고장난 소화기.\n입력은 되는데 처리가 안 돼.',
+      '뇌': '과부하 걸린 CPU.\n재부팅이 필요해.',
+      '피부': '겉이 먼저 신호 보내는 중.\n속부터 봐야 해.',
+      '멘탈': '터지기 직전인 풍선.\n지금 당장 압력 낮춰야 해.',
+      '체중': '배신한 몸.\n같이 다시 시작하자.',
+      '눈': '혹사당한 렌즈.\n교체 전에 관리해야 해.',
     }
-    return single[matches[0]] ?? '넌\n아픈 놈이야.'
+    return map[cats[0]] ?? '아픈 놈.\n딱히 설명도 필요 없어.'
   }
-  if (matches.length === 2) {
-    return `넌 ${matches[0]}\n${matches[1]} 있어.`
+
+  if (n === 2) {
+    const combos: Record<string, string> = {
+      '피로+수면': '방전에 불면까지.\n재충전 루틴이 없는 상태야.',
+      '피로+멘탈': '몸도 마음도\n한계치를 넘어섰어.',
+      '수면+멘탈': '자도 피곤하고\n안 자도 피곤한 타입.',
+      '피로+관절': '삐걱대면서 방전 중.\n전신 점검이 필요해.',
+      '뇌+수면': '눈은 감았는데\n뇌는 야근 중.',
+    }
+    const key1 = `${cats[0]}+${cats[1]}`
+    const key2 = `${cats[1]}+${cats[0]}`
+    return combos[key1] ?? combos[key2] ?? `${cats[0]}에 ${cats[1]}까지.\n두 군데서 신호 오는 중.`
   }
-  if (matches.length === 3) {
-    return `${matches[0]}, ${matches[1]},\n${matches[2]} 있어.`
+
+  if (n === 3) {
+    return `${cats[0]}, ${cats[1]}, ${cats[2]}.\n세 군데서 동시에 신호 오는 중.`
   }
-  // 4개 이상: 총체적 난국
-  return '총체적 난국이야.\n한 군데가 아니야.'
+
+  // 4개 이상
+  const labels: Record<string, string> = {
+    '피로': '피로', '수면': '불면', '면역': '면역저하', '관절': '관절통',
+    '소화': '소화불량', '뇌': '집중력저하', '피부': '피부문제',
+    '멘탈': '스트레스', '체중': '체중관리', '눈': '눈피로',
+  }
+  const tagLine = cats.slice(0, 3).map(c => labels[c] ?? c).join(' · ')
+  return `증상 백화점.\n${tagLine} 외 ${n - 3}개 더.`
 }
 
 // 영양소 이름 정규화 (변형 → 표준)
