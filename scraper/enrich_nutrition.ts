@@ -26,13 +26,22 @@ async function getDetailImages(page: import('playwright').Page, url: string): Pr
   try {
     await page.goto(url, { timeout: 20000, waitUntil: 'networkidle' })
     const imgs = await page.$$eval(
-      '.goods_description img, .product_description img, .detail_content img, [class*="detail"] img, [class*="description"] img, .editor img',
-      (els) => els
-        .map(el => ({ src: (el as HTMLImageElement).src, h: (el as HTMLImageElement).naturalHeight }))
-        .filter(i => i.h > 500)  // 영양성분표가 포함된 긴 이미지만
-        .sort((a, b) => b.h - a.h)
-        .slice(0, 2)
-        .map(i => i.src)
+      'img',
+      (els) => {
+        const seen = new Set<string>()
+        return els
+          .map(el => ({ src: (el as HTMLImageElement).src, h: (el as HTMLImageElement).naturalHeight }))
+          .filter(i => {
+            if (i.h < 800) return false
+            if (/\.heic$/i.test(i.src)) return false  // HEIC 미지원
+            if (seen.has(i.src)) return false
+            seen.add(i.src)
+            return true
+          })
+          .sort((a, b) => b.h - a.h)
+          .slice(0, 3)
+          .map(i => i.src)
+      }
     )
     return imgs
   } catch {
@@ -68,7 +77,7 @@ async function extractNutritionFacts(imageUrls: string[], productName: string): 
             },
             ...imageUrls.map(url => ({
               type: 'image_url' as const,
-              image_url: { url, detail: 'low' as const },
+              image_url: { url, detail: 'auto' as const },
             })),
           ],
         },
