@@ -166,7 +166,7 @@ export default function Home({ member, hasCuration, onEditProfile, onStartAnalys
         {/* 크레딧 */}
         <div style={{ textAlign: 'center', paddingBottom: 8 }}>
           <p style={{ fontSize: 10, color: '#BBBBBB', letterSpacing: '0.5px', lineHeight: 2 }}>
-            Made by 최미연 &nbsp;·&nbsp; Honorable 김정빈
+            Made by 최미연 &nbsp;·&nbsp; Inspired by 김정빈
           </p>
         </div>
 
