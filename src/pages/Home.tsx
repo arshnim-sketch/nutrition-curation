@@ -1,29 +1,20 @@
-import { useAppContext } from '../store/AppContext'
-import ProfileCard from '../components/ProfileCard'
 import type { FamilyMember } from '../types'
 
 interface Props {
-  onAddMember: () => void
-  onEditMember: (member: FamilyMember) => void
-  onCuration: (member: FamilyMember) => void
+  member: FamilyMember
+  hasCuration: boolean
+  onEditProfile: () => void
+  onStartAnalysis: () => void
+  onViewResult: () => void
 }
 
-export default function Home({ onAddMember, onEditMember, onCuration }: Props) {
-  const { state, dispatch } = useAppContext()
-
-  function handleDelete(id: string) {
-    if (confirm('이 프로필을 삭제할까요?')) {
-      dispatch({ type: 'REMOVE_MEMBER', payload: id })
-    }
-  }
-
+export default function Home({ member, hasCuration, onEditProfile, onStartAnalysis, onViewResult }: Props) {
   return (
-    <div className="min-h-screen" style={{ background: '#F5F0E8' }}>
+    <div style={{ minHeight: '100vh', background: '#F5F0E8' }}>
       {/* Header */}
       <header style={{ background: '#111111', borderBottom: '3px solid #111111' }}>
         <div className="max-w-2xl mx-auto px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            {/* 바우하우스 로고 */}
             <div style={{ width: 40, height: 40, background: '#E63329', border: '2px solid #F5C800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{ width: 16, height: 16, background: '#F5C800', borderRadius: '50%' }} />
             </div>
@@ -37,106 +28,130 @@ export default function Home({ onAddMember, onEditMember, onCuration }: Props) {
             </div>
           </div>
           <button
-            onClick={onAddMember}
+            onClick={onEditProfile}
             style={{
-              background: '#F5C800',
-              color: '#111111',
-              border: '2px solid #111111',
-              boxShadow: '3px 3px 0 #111111',
-              padding: '8px 16px',
-              fontWeight: 700,
-              fontSize: 13,
+              background: 'none',
+              color: '#AAAAAA',
+              border: '2px solid #444444',
+              padding: '6px 14px',
+              fontWeight: 600,
+              fontSize: 12,
               cursor: 'pointer',
               letterSpacing: '0.5px',
+              fontFamily: 'Space Grotesk, sans-serif',
             }}
           >
-            + ADD
+            EDIT
           </button>
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-6 py-8">
-        {state.members.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            {/* 바우하우스 기하학 구성 */}
-            <div style={{ position: 'relative', width: 120, height: 120, marginBottom: 32 }}>
-              <div style={{ position: 'absolute', width: 80, height: 80, background: '#1B4FD8', border: '3px solid #111111', top: 0, left: 0 }} />
-              <div style={{ position: 'absolute', width: 50, height: 50, background: '#E63329', borderRadius: '50%', border: '3px solid #111111', bottom: 0, right: 0 }} />
-              <div style={{ position: 'absolute', width: 0, height: 0, borderLeft: '22px solid transparent', borderRight: '22px solid transparent', borderBottom: '38px solid #F5C800', bottom: 16, left: '50%', transform: 'translateX(-50%)' }} />
+      <main className="max-w-2xl mx-auto px-6 py-10" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+
+        {/* 프로필 카드 */}
+        <div style={{ background: '#111111', border: '3px solid #111111', boxShadow: '5px 5px 0 #E63329' }}>
+          <div style={{ background: '#E63329', padding: '8px 24px' }}>
+            <p style={{ fontSize: 10, fontWeight: 700, color: '#FFFFFF', letterSpacing: '2px' }}>MY PROFILE</p>
+          </div>
+          <div style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 20 }}>
+            {/* 아바타 */}
+            <div style={{
+              width: 64, height: 64, flexShrink: 0,
+              background: '#1B4FD8', border: '3px solid #F5C800',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <span style={{ fontSize: 28, fontWeight: 900, color: '#F5C800' }}>
+                {member.name.slice(0, 1)}
+              </span>
             </div>
-            <h2 style={{ fontSize: 28, fontWeight: 700, color: '#111111', letterSpacing: '-1px', marginBottom: 12, lineHeight: 1.1 }}>
-              프로필을 추가하세요
-            </h2>
-            <p style={{ color: '#555555', fontSize: 14, marginBottom: 32, lineHeight: 1.6 }}>
-              나이·성별·목표를 입력하면<br />AI가 최적의 영양제 도핑 세트를 설계합니다
-            </p>
+            <div>
+              <p style={{ fontSize: 24, fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.5px' }}>{member.name}</p>
+              <p style={{ fontSize: 13, color: '#AAAAAA', marginTop: 4 }}>
+                {member.age}세 · {member.gender === 'male' ? '남성' : '여성'}
+              </p>
+              {member.symptoms.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 8 }}>
+                  {member.symptoms.slice(0, 4).map(s => (
+                    <span key={s} style={{
+                      fontSize: 10, fontWeight: 600, color: '#F5C800',
+                      border: '1.5px solid #F5C800', padding: '2px 7px',
+                    }}>{s}</span>
+                  ))}
+                  {member.symptoms.length > 4 && (
+                    <span style={{ fontSize: 10, color: '#888888', padding: '2px 4px' }}>
+                      +{member.symptoms.length - 4}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* 메인 액션 */}
+        {hasCuration ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <button
-              onClick={onAddMember}
+              onClick={onViewResult}
               style={{
-                background: '#E63329',
-                color: '#FFFFFF',
-                border: '3px solid #111111',
-                boxShadow: '5px 5px 0 #111111',
-                padding: '14px 32px',
-                fontWeight: 700,
-                fontSize: 16,
+                width: '100%', padding: '20px 0',
+                fontSize: 18, fontWeight: 700, letterSpacing: '1px',
                 cursor: 'pointer',
-                letterSpacing: '0.5px',
-                transition: 'transform 0.1s, box-shadow 0.1s',
-              }}
-              onMouseEnter={e => {
-                ;(e.currentTarget as HTMLButtonElement).style.transform = 'translate(2px, 2px)'
-                ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '3px 3px 0 #111111'
-              }}
-              onMouseLeave={e => {
-                ;(e.currentTarget as HTMLButtonElement).style.transform = ''
-                ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '5px 5px 0 #111111'
+                border: '3px solid #111111',
+                background: '#1B4FD8', color: '#FFFFFF',
+                boxShadow: '5px 5px 0 #111111',
+                fontFamily: 'Space Grotesk, sans-serif',
               }}
             >
-              첫 번째 프로필 추가하기
+              ▶ 내 도핑 세트 보기
+            </button>
+            <button
+              onClick={onStartAnalysis}
+              style={{
+                width: '100%', padding: '14px 0',
+                fontSize: 14, fontWeight: 700, letterSpacing: '1px',
+                cursor: 'pointer',
+                border: '3px solid #111111',
+                background: '#FFFFFF', color: '#111111',
+                fontFamily: 'Space Grotesk, sans-serif',
+              }}
+            >
+              ↺ 다시 분석하기
             </button>
           </div>
         ) : (
-          <>
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <p style={{ fontSize: 11, fontWeight: 700, color: '#E63329', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 2 }}>PROFILES</p>
-                <h2 style={{ fontSize: 24, fontWeight: 700, color: '#111111', letterSpacing: '-0.5px' }}>
-                  {state.members.length}명의 도퍼
-                </h2>
-              </div>
-              <button
-                onClick={onAddMember}
-                style={{
-                  background: '#F5C800',
-                  color: '#111111',
-                  border: '2px solid #111111',
-                  boxShadow: '3px 3px 0 #111111',
-                  padding: '8px 16px',
-                  fontWeight: 700,
-                  fontSize: 13,
-                  cursor: 'pointer',
-                }}
-              >
-                + 추가
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {state.members.map((member, idx) => (
-                <ProfileCard
-                  key={member.id}
-                  member={member}
-                  colorIndex={idx}
-                  onEdit={onEditMember}
-                  onCuration={onCuration}
-                  onDelete={handleDelete}
-                  hasCuration={!!state.curationResults[member.id]}
-                />
-              ))}
-            </div>
-          </>
+          <button
+            onClick={onStartAnalysis}
+            style={{
+              width: '100%', padding: '24px 0',
+              fontSize: 20, fontWeight: 700, letterSpacing: '1px',
+              cursor: 'pointer',
+              border: '3px solid #111111',
+              background: '#E63329', color: '#FFFFFF',
+              boxShadow: '5px 5px 0 #111111',
+              fontFamily: 'Space Grotesk, sans-serif',
+            }}
+          >
+            ▶ 도핑 세트 설계 시작
+          </button>
         )}
+
+        {/* 설명 */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {[
+            ['01', '증상 선택', '현재 겪고 있는 건강 목표를 선택합니다'],
+            ['02', 'AI 분석', 'GPT-4o가 임상 영양학 기준으로 최적 조합 설계'],
+            ['03', '도핑 세트', '영양소 균형·상호작용 검증된 맞춤 루틴 제공'],
+          ].map(([num, title, desc]) => (
+            <div key={num} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px', background: '#FFFFFF', border: '2px solid #111111' }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#E63329', minWidth: 20 }}>{num}</span>
+              <div>
+                <p style={{ fontSize: 14, fontWeight: 700, color: '#111111' }}>{title}</p>
+                <p style={{ fontSize: 12, color: '#888888', marginTop: 2 }}>{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </main>
     </div>
   )

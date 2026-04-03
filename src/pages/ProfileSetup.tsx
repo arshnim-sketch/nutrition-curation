@@ -4,7 +4,7 @@ import type { FamilyMember } from '../types'
 
 interface Props {
   editingMember?: FamilyMember | null
-  onBack: () => void
+  onBack?: () => void
   onSave: (member: FamilyMember) => void
 }
 
@@ -47,14 +47,16 @@ export default function ProfileSetup({ editingMember, onBack, onSave }: Props) {
       {/* Header */}
       <header style={{ background: '#111111', borderBottom: '3px solid #111111' }}>
         <div className="max-w-2xl mx-auto px-6 py-5 flex items-center gap-4">
-          <button
-            onClick={onBack}
-            style={{ color: '#F5C800', fontWeight: 700, fontSize: 14, cursor: 'pointer', background: 'none', border: 'none', letterSpacing: '0.5px' }}
-          >
-            ← BACK
-          </button>
+          {onBack && (
+            <button
+              onClick={onBack}
+              style={{ color: '#F5C800', fontWeight: 700, fontSize: 14, cursor: 'pointer', background: 'none', border: 'none', letterSpacing: '0.5px' }}
+            >
+              ← BACK
+            </button>
+          )}
           <h1 style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 700, letterSpacing: '-0.5px' }}>
-            {editingMember ? '프로필 수정' : '가족 추가'}
+            {editingMember ? '프로필 수정' : '내 프로필 설정'}
           </h1>
         </div>
       </header>
@@ -64,7 +66,7 @@ export default function ProfileSetup({ editingMember, onBack, onSave }: Props) {
         <div style={{ borderLeft: '4px solid #E63329', paddingLeft: 16, marginBottom: 32 }}>
           <p style={{ fontSize: 11, fontWeight: 700, color: '#E63329', letterSpacing: '2px', textTransform: 'uppercase' }}>PROFILE SETUP</p>
           <h2 style={{ fontSize: 26, fontWeight: 700, color: '#111111', letterSpacing: '-0.5px' }}>
-            {editingMember ? '정보를 수정하세요' : '정보를 입력하세요'}
+            {editingMember ? '프로필을 수정하세요' : '내 정보를 입력하세요'}
           </h2>
         </div>
 
@@ -149,7 +151,7 @@ export default function ProfileSetup({ editingMember, onBack, onSave }: Props) {
             fontFamily: 'Space Grotesk, sans-serif',
           }}
         >
-          {editingMember ? '수정 완료' : '저장 → 증상 선택'}
+          {editingMember ? '수정 완료' : '시작하기 →'}
         </button>
       </main>
     </div>

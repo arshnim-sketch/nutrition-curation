@@ -1,85 +1,47 @@
-import { useState } from 'react'
 import { AppProvider, useAppContext } from './store/AppContext'
 import Home from './pages/Home'
 import ProfileSetup from './pages/ProfileSetup'
 import SymptomPage from './pages/SymptomPage'
 import CurationResult from './pages/CurationResult'
 import type { FamilyMember } from './types'
+import { useState } from 'react'
 
 type Page = 'home' | 'setup' | 'symptoms' | 'result'
 
 function AppInner() {
-  const [page, setPage] = useState<Page>('home')
-  const [selectedMember, setSelectedMember] = useState<FamilyMember | null>(null)
-  const [editingMember, setEditingMember] = useState<FamilyMember | null>(null)
   const { state } = useAppContext()
+  const [page, setPage] = useState<Page>('home')
 
-  function goHome() {
-    setPage('home')
-    setSelectedMember(null)
-    setEditingMember(null)
-  }
+  const profile = state.members[0] ?? null
 
-  function handleAddMember() {
-    setEditingMember(null)
-    setPage('setup')
-  }
-
-  function handleEditMember(member: FamilyMember) {
-    setEditingMember(member)
-    setPage('setup')
-  }
-
-  function handleCuration(member: FamilyMember) {
-    // 이미 큐레이션 결과가 있으면 결과 페이지로
-    if (state.curationResults[member.id]) {
-      setSelectedMember(member)
-      setPage('result')
-    } else {
-      setSelectedMember(member)
-      setPage('symptoms')
-    }
-  }
-
-  function handleProfileSaved(member: FamilyMember) {
-    setSelectedMember(member)
-    setEditingMember(null)
-    // 신규 추가면 증상 선택으로, 수정이면 홈으로
-    if (!editingMember) {
-      setPage('symptoms')
-    } else {
-      setPage('home')
-    }
-  }
-
-  if (page === 'setup') {
+  // 프로필 없으면 무조건 setup
+  if (!profile || page === 'setup') {
     return (
       <ProfileSetup
-        editingMember={editingMember}
-        onBack={goHome}
-        onSave={handleProfileSaved}
+        editingMember={profile}
+        onBack={profile ? () => setPage('home') : undefined}
+        onSave={() => setPage('home')}
       />
     )
   }
 
-  if (page === 'symptoms' && selectedMember) {
-    // 최신 멤버 데이터 가져오기
-    const latestMember = state.members.find(m => m.id === selectedMember.id) ?? selectedMember
+  const latestProfile = state.members.find(m => m.id === profile.id) ?? profile
+
+  if (page === 'symptoms') {
     return (
       <SymptomPage
-        member={latestMember}
-        onBack={goHome}
+        member={latestProfile}
+        onBack={() => setPage('home')}
         onResult={() => setPage('result')}
       />
     )
   }
 
-  if (page === 'result' && selectedMember) {
-    const latestMember = state.members.find(m => m.id === selectedMember.id) ?? selectedMember
+  if (page === 'result') {
     return (
       <CurationResult
-        member={latestMember}
-        onBack={goHome}
+        member={latestProfile}
+        onBack={() => setPage('home')}
         onReselect={() => setPage('symptoms')}
       />
     )
@@ -87,9 +49,11 @@ function AppInner() {
 
   return (
     <Home
-      onAddMember={handleAddMember}
-      onEditMember={handleEditMember}
-      onCuration={handleCuration}
+      member={latestProfile}
+      hasCuration={!!state.curationResults[latestProfile.id]}
+      onEditProfile={() => setPage('setup')}
+      onStartAnalysis={() => setPage('symptoms')}
+      onViewResult={() => setPage('result')}
     />
   )
 }
