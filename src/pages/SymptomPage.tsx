@@ -187,7 +187,7 @@ export default function SymptomPage({ member, onBack, onResult }: Props) {
                 fontFamily: 'Space Grotesk, sans-serif',
               }}
             >
-              {analyzing ? '■ AI 분석 중...' : '▶ AI 큐레이션 시작'}
+              {analyzing ? '■ AI 분석 중...' : '▶ 도핑 세트 설계 시작'}
             </button>
           )}
         </div>

@@ -121,7 +121,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
     return (
       <div style={{ minHeight: '100vh', background: '#F5F0E8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ color: '#888888', marginBottom: 16 }}>큐레이션 결과가 없습니다.</p>
+          <p style={{ color: '#888888', marginBottom: 16 }}>분석 결과가 없습니다.</p>
           <button onClick={onBack} style={{ color: '#E63329', fontWeight: 700, cursor: 'pointer', background: 'none', border: 'none', fontSize: 14 }}>돌아가기</button>
         </div>
       </div>
@@ -143,7 +143,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
   const timingInteractions = (result.interactions ?? []).filter(i => i.type === 'timing')
 
   async function handleShare() {
-    let text = `💊 [${member.name}]님의 맞춤 영양제 큐레이션\n`
+    let text = `💊 [${member.name}]님의 도핑 세트\n`
     text += `✨ 선택 증상: ${member.symptoms.join(', ')}\n\n`
     text += `🎁 추천 세트: ${result.setName}\n`
     activeProducts.forEach((p, idx) => {
@@ -152,12 +152,12 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
     
     text += `💰 예상 총액: ${totalPrice.toLocaleString()}원\n\n`
     text += `📝 AI 분석 요약:\n${result.summary}\n\n`
-    text += `👉 나만의 영양제 조합 찾아보기:\n${window.location.origin}`
+    text += `👉 나만의 도핑 세트 설계하기:\n${window.location.origin}`
 
     try {
       if (navigator.share) {
         await navigator.share({
-          title: `${member.name}님의 영양제 큐레이션`,
+          title: `${member.name}님의 도핑 세트`,
           text: text,
         })
       } else {
@@ -178,7 +178,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
           </button>
           <div style={{ flex: 1 }}>
             <h1 style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 700, letterSpacing: '-0.5px' }}>
-              {member.name}의 큐레이션
+              {member.name}의 도핑 세트
             </h1>
             <p style={{ color: '#AAAAAA', fontSize: 11, letterSpacing: '1px' }}>{createdAt}</p>
           </div>

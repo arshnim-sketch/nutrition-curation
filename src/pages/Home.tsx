@@ -29,10 +29,10 @@ export default function Home({ onAddMember, onEditMember, onCuration }: Props) {
             </div>
             <div>
               <h1 style={{ color: '#FFFFFF', fontSize: 18, fontWeight: 700, letterSpacing: '-0.5px', lineHeight: 1.2 }}>
-                우리 가족 영양제
+                현대인 도핑 가이드
               </h1>
               <p style={{ color: '#F5C800', fontSize: 11, fontWeight: 500, letterSpacing: '1px', textTransform: 'uppercase' }}>
-                AI CURATION SYSTEM
+                AI SUPPLEMENT DOPING SYSTEM
               </p>
             </div>
           </div>
@@ -65,10 +65,10 @@ export default function Home({ onAddMember, onEditMember, onCuration }: Props) {
               <div style={{ position: 'absolute', width: 0, height: 0, borderLeft: '22px solid transparent', borderRight: '22px solid transparent', borderBottom: '38px solid #F5C800', bottom: 16, left: '50%', transform: 'translateX(-50%)' }} />
             </div>
             <h2 style={{ fontSize: 28, fontWeight: 700, color: '#111111', letterSpacing: '-1px', marginBottom: 12, lineHeight: 1.1 }}>
-              가족을 추가하세요
+              프로필을 추가하세요
             </h2>
             <p style={{ color: '#555555', fontSize: 14, marginBottom: 32, lineHeight: 1.6 }}>
-              나이·성별·증상을 입력하면<br />AI가 맞춤 영양제를 큐레이션합니다
+              나이·성별·목표를 입력하면<br />AI가 최적의 영양제 도핑 세트를 설계합니다
             </p>
             <button
               onClick={onAddMember}
@@ -93,16 +93,16 @@ export default function Home({ onAddMember, onEditMember, onCuration }: Props) {
                 ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '5px 5px 0 #111111'
               }}
             >
-              첫 번째 가족 추가하기
+              첫 번째 프로필 추가하기
             </button>
           </div>
         ) : (
           <>
             <div className="flex items-center justify-between mb-6">
               <div>
-                <p style={{ fontSize: 11, fontWeight: 700, color: '#E63329', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 2 }}>FAMILY MEMBERS</p>
+                <p style={{ fontSize: 11, fontWeight: 700, color: '#E63329', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 2 }}>PROFILES</p>
                 <h2 style={{ fontSize: 24, fontWeight: 700, color: '#111111', letterSpacing: '-0.5px' }}>
-                  {state.members.length}명의 가족
+                  {state.members.length}명의 도퍼
                 </h2>
               </div>
               <button
