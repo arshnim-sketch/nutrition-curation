@@ -27,7 +27,7 @@ function getCatchphrase(symptoms: string[]): string {
 
   const n = cats.length
 
-  if (n === 0) return '아픈 놈.\n딱히 설명도 필요 없어.'
+  if (n === 0) return '관리 잘 하고 있네.\n그래도 기본은 챙기자.'
 
   if (n === 1) {
     const map: Record<string, string> = {
