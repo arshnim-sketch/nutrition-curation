@@ -11,6 +11,21 @@ interface Props {
 
 const PRIORITY_ORDER: Record<string, number> = { high: 0, medium: 1, low: 2 }
 
+function getCatchphrase(symptoms: string[]): string {
+  const s = symptoms.join(' ')
+  if (/피로|무기력|에너지|활력/.test(s)) return '넌 지쳐 쓰러지기\n직전이야.'
+  if (/수면|불면|잠/.test(s)) return '잠 못 자서\n몸이 망가지고 있어.'
+  if (/면역|감기|잦은 질병/.test(s)) return '면역이\n바닥났어.'
+  if (/관절|근육|뼈|허리/.test(s)) return '몸이\n삐걱대고 있어.'
+  if (/소화|장|변비|bloating/.test(s)) return '장이\n엉망이야.'
+  if (/두뇌|집중|기억|인지/.test(s)) return '뇌가\n꺼져가고 있어.'
+  if (/피부|모발|탈모|손발톱/.test(s)) return '몸속부터\n무너지고 있어.'
+  if (/스트레스|불안|우울/.test(s)) return '스트레스로\n터지기 직전이야.'
+  if (/체중|다이어트|비만/.test(s)) return '몸이\n배신하고 있어.'
+  if (/눈|시력|눈피로/.test(s)) return '눈이\n망가지고 있어.'
+  return '넌\n아픈 놈이야.'
+}
+
 // 영양소 이름 정규화 (변형 → 표준)
 function canonicalizeNutrient(s: string): string {
   const n = s.replace(/\s/g, '').toLowerCase()
@@ -195,11 +210,14 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
 
         {/* AI 요약 */}
         <div style={{ background: '#1B4FD8', border: '3px solid #111111', boxShadow: '5px 5px 0 #111111', padding: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
             <div style={{ width: 10, height: 10, background: '#F5C800' }} />
             <p style={{ fontSize: 11, fontWeight: 700, color: '#F5C800', letterSpacing: '2px', textTransform: 'uppercase' }}>AI ANALYSIS</p>
           </div>
-          <p style={{ fontSize: 14, color: '#FFFFFF', lineHeight: 1.7 }}>{result.summary}</p>
+          <p style={{ fontSize: 32, fontWeight: 900, color: '#FFFFFF', lineHeight: 1.25, letterSpacing: '-1px', marginBottom: 14 }}>
+            {getCatchphrase(member.symptoms)}
+          </p>
+          <p style={{ fontSize: 12, color: '#AACCFF', lineHeight: 1.7, borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: 12 }}>{result.summary}</p>
         </div>
 
         {/* 세트 구성 */}
