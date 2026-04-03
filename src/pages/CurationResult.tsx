@@ -13,17 +13,40 @@ const PRIORITY_ORDER: Record<string, number> = { high: 0, medium: 1, low: 2 }
 
 function getCatchphrase(symptoms: string[]): string {
   const s = symptoms.join(' ')
-  if (/피로|무기력|에너지|활력/.test(s)) return '넌 지쳐 쓰러지기\n직전이야.'
-  if (/수면|불면|잠/.test(s)) return '잠 못 자서\n몸이 망가지고 있어.'
-  if (/면역|감기|잦은 질병/.test(s)) return '면역이\n바닥났어.'
-  if (/관절|근육|뼈|허리/.test(s)) return '몸이\n삐걱대고 있어.'
-  if (/소화|장|변비|bloating/.test(s)) return '장이\n엉망이야.'
-  if (/두뇌|집중|기억|인지/.test(s)) return '뇌가\n꺼져가고 있어.'
-  if (/피부|모발|탈모|손발톱/.test(s)) return '몸속부터\n무너지고 있어.'
-  if (/스트레스|불안|우울/.test(s)) return '스트레스로\n터지기 직전이야.'
-  if (/체중|다이어트|비만/.test(s)) return '몸이\n배신하고 있어.'
-  if (/눈|시력|눈피로/.test(s)) return '눈이\n망가지고 있어.'
-  return '넌\n아픈 놈이야.'
+  const matches: string[] = []
+  if (/피로|무기력|에너지|활력/.test(s)) matches.push('지쳐가고')
+  if (/수면|불면|잠/.test(s)) matches.push('못 자고')
+  if (/면역|감기|잦은/.test(s)) matches.push('면역이 무너지고')
+  if (/관절|근육|뼈|허리/.test(s)) matches.push('몸이 삐걱대고')
+  if (/소화|장|변비/.test(s)) matches.push('장이 망가지고')
+  if (/두뇌|집중|기억|인지/.test(s)) matches.push('뇌가 꺼져가고')
+  if (/피부|모발|탈모/.test(s)) matches.push('겉도 속도 무너지고')
+  if (/스트레스|불안|우울/.test(s)) matches.push('스트레스로 터지기 직전이고')
+  if (/체중|다이어트/.test(s)) matches.push('몸이 배신하고')
+  if (/눈|시력|눈피로/.test(s)) matches.push('눈이 망가지고')
+
+  if (matches.length === 0) return '넌\n아픈 놈이야.'
+  if (matches.length === 1) {
+    // 단일 증상: 원래 강렬한 단독 문장
+    const single: Record<string, string> = {
+      '지쳐가고': '넌 지쳐\n쓰러지기 직전이야.',
+      '못 자고': '잠 못 자서\n몸이 망가지고 있어.',
+      '면역이 무너지고': '면역이\n바닥났어.',
+      '몸이 삐걱대고': '몸이\n삐걱대고 있어.',
+      '장이 망가지고': '장이\n엉망이야.',
+      '뇌가 꺼져가고': '뇌가\n꺼져가고 있어.',
+      '겉도 속도 무너지고': '몸속부터\n무너지고 있어.',
+      '스트레스로 터지기 직전이고': '스트레스로\n터지기 직전이야.',
+      '몸이 배신하고': '몸이\n배신하고 있어.',
+      '눈이 망가지고': '눈이\n망가지고 있어.',
+    }
+    return single[matches[0]] ?? '넌\n아픈 놈이야.'
+  }
+  if (matches.length === 2) {
+    return `넌 ${matches[0]}\n${matches[1]} 있어.`
+  }
+  // 3개 이상: 총체적 난국
+  return '총체적 난국이야.\n한 군데가 아니야.'
 }
 
 // 영양소 이름 정규화 (변형 → 표준)
