@@ -256,7 +256,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
 
                   return (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 10, color: cfg.text, minWidth: 64, opacity: isExcluded ? 0.4 : 1, textDecoration: isExcluded ? 'line-through' : 'none' }}>
+                      <span style={{ fontSize: 10, color: cfg.text, width: 80, flexShrink: 0, opacity: isExcluded ? 0.4 : 1, textDecoration: isExcluded ? 'line-through' : 'none' }}>
                         {b.nutrient}
                       </span>
                       <div style={{ flex: 1, height: 4, background: '#2A2A2A' }}>
