@@ -50,7 +50,8 @@ export default function SymptomPage({ member, onBack, onResult }: Props) {
       onResult()
     } catch (err) {
       console.error(err)
-      setError('AI 분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
+      const msg = err instanceof Error ? err.message : String(err)
+      setError(`오류: ${msg}`)
     } finally {
       setAnalyzing(false)
     }
