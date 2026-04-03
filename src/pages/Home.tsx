@@ -162,6 +162,14 @@ export default function Home({ member, hasCuration, onEditProfile, onStartAnalys
             복용 중인 약물이 있는 경우 영양제와의 상호작용을 전문가에게 확인하시기 바랍니다.
           </p>
         </div>
+
+        {/* 크레딧 */}
+        <div style={{ textAlign: 'center', paddingBottom: 8 }}>
+          <p style={{ fontSize: 10, color: '#BBBBBB', letterSpacing: '0.5px', lineHeight: 2 }}>
+            Honorable 김정빈 &nbsp;·&nbsp; Made by 최미연
+          </p>
+        </div>
+
       </main>
     </div>
   )
