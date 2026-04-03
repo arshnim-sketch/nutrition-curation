@@ -45,7 +45,10 @@ function getCatchphrase(symptoms: string[]): string {
   if (matches.length === 2) {
     return `넌 ${matches[0]}\n${matches[1]} 있어.`
   }
-  // 3개 이상: 총체적 난국
+  if (matches.length === 3) {
+    return `${matches[0]}, ${matches[1]},\n${matches[2]} 있어.`
+  }
+  // 4개 이상: 총체적 난국
   return '총체적 난국이야.\n한 군데가 아니야.'
 }
 
