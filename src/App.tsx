@@ -3,7 +3,6 @@ import Home from './pages/Home'
 import ProfileSetup from './pages/ProfileSetup'
 import SymptomPage from './pages/SymptomPage'
 import CurationResult from './pages/CurationResult'
-import type { FamilyMember } from './types'
 import { useState } from 'react'
 
 type Page = 'home' | 'setup' | 'symptoms' | 'result'
