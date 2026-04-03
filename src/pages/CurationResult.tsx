@@ -218,20 +218,10 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
 
         {/* 세트 구성 */}
         <div style={{ background: '#111111', border: '3px solid #111111', boxShadow: '5px 5px 0 #E63329', padding: '20px 24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#F5C800', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 4 }}>CURATED SET</p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.5px' }}>{result.setName}</p>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              {totalOriginalPrice > totalPrice && (
-                <p style={{ fontSize: 12, color: '#888888', textDecoration: 'line-through', marginBottom: 2 }}>
-                  {totalOriginalPrice.toLocaleString()}원
-                </p>
-              )}
-              <p style={{ fontSize: 24, fontWeight: 700, color: '#F5C800' }}>{totalPrice.toLocaleString()}원</p>
-              <p style={{ fontSize: 10, color: '#888888', marginTop: 2 }}>총 {activeProducts.length}개 선택됨</p>
-            </div>
+          <div style={{ marginBottom: 16 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#F5C800', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 4 }}>CURATED SET</p>
+            <p style={{ fontSize: 20, fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.5px' }}>{result.setName}</p>
+            <p style={{ fontSize: 11, color: '#888888', marginTop: 4 }}>총 {activeProducts.length}개 선택됨</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {sorted.map(item => {
@@ -274,6 +264,19 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                 </div>
               )
             })}
+          </div>
+
+          {/* 총액 — 제품 목록 아래 */}
+          <div style={{ marginTop: 16, borderTop: '1.5px solid #333333', paddingTop: 14, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#888888', letterSpacing: '1px' }}>TOTAL</span>
+            <div style={{ textAlign: 'right' }}>
+              {totalOriginalPrice > totalPrice && (
+                <p style={{ fontSize: 12, color: '#666666', textDecoration: 'line-through', marginBottom: 2 }}>
+                  {totalOriginalPrice.toLocaleString()}원
+                </p>
+              )}
+              <p style={{ fontSize: 22, fontWeight: 700, color: '#F5C800' }}>{totalPrice.toLocaleString()}원</p>
+            </div>
           </div>
         </div>
 
