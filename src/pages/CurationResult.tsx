@@ -266,7 +266,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
             })}
           </div>
 
-          {/* 총액 — 제품 목록 아래 */}
+          {/* 총액 */}
           <div style={{ marginTop: 16, borderTop: '1.5px solid #333333', paddingTop: 14, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span style={{ fontSize: 12, fontWeight: 600, color: '#888888', letterSpacing: '1px' }}>TOTAL</span>
             <div style={{ textAlign: 'right' }}>
@@ -278,49 +278,53 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
               <p style={{ fontSize: 22, fontWeight: 700, color: '#F5C800' }}>{totalPrice.toLocaleString()}원</p>
             </div>
           </div>
-        </div>
 
-        {/* 영양소 균형 */}
-        {result.nutrientBalance && result.nutrientBalance.length > 0 && (
-          <div style={{ background: '#FFFFFF', border: '3px solid #111111', boxShadow: '5px 5px 0 #111111', padding: '20px 24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-              <div style={{ width: 10, height: 10, background: '#111111' }} />
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#111111', letterSpacing: '2px', textTransform: 'uppercase' }}>
-                NUTRIENT BALANCE
-              </p>
+          {/* 미니 영양소 게이지 — 체크박스와 같은 카드 내 */}
+          {result.nutrientBalance && result.nutrientBalance.length > 0 && (
+            <div style={{ marginTop: 16, borderTop: '1.5px solid #333333', paddingTop: 14 }}>
+              <p style={{ fontSize: 10, fontWeight: 700, color: '#888888', letterSpacing: '1.5px', marginBottom: 10 }}>NUTRIENT BALANCE</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {result.nutrientBalance.map((b, i) => {
+                  const normalize = (s: string) => s.replace(/\s/g, '').toLowerCase()
+                  const bNutrient = normalize(b.nutrient)
+                  const matchingProducts = sorted.filter(p =>
+                    p.product.nutrients.some(n => {
+                      const nNorm = normalize(n)
+                      return bNutrient.includes(nNorm) || nNorm.includes(bNutrient)
+                    })
+                  )
+                  const totalMatchingCount = matchingProducts.length
+                  const activeMatchingCount = matchingProducts.filter(p => !excludedProductIds.has(p.product.id)).length
+                  const isExcluded = totalMatchingCount > 0 && activeMatchingCount === 0
+
+                  const cfg = isExcluded
+                    ? { bar: '#444444', text: '#666666' }
+                    : { bar: STATUS_CONFIG[b.status as keyof typeof STATUS_CONFIG]?.bar ?? '#4CAF50', text: STATUS_CONFIG[b.status as keyof typeof STATUS_CONFIG]?.text ?? '#4CAF50' }
+
+                  const baseWidth = b.status === 'excess' ? 100 : b.status === 'optimal' ? 60 : b.status === 'caution' ? 85 : 30
+                  const barWidth = isExcluded ? 0
+                    : totalMatchingCount > 0 && activeMatchingCount < totalMatchingCount
+                      ? Math.max(8, baseWidth * (activeMatchingCount / totalMatchingCount))
+                      : baseWidth
+
+                  return (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 10, color: cfg.text, minWidth: 64, opacity: isExcluded ? 0.4 : 1, textDecoration: isExcluded ? 'line-through' : 'none' }}>
+                        {b.nutrient}
+                      </span>
+                      <div style={{ flex: 1, height: 4, background: '#2A2A2A' }}>
+                        <div style={{ height: '100%', background: cfg.bar, width: `${barWidth}%`, transition: 'width 0.35s ease-out, background 0.35s' }} />
+                      </div>
+                      <span style={{ fontSize: 9, fontWeight: 700, color: cfg.text, minWidth: 40, textAlign: 'right', opacity: isExcluded ? 0.4 : 1 }}>
+                        {isExcluded ? '—' : b.estimatedDaily}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
-              {Object.entries(STATUS_CONFIG).map(([key, cfg]) => (
-                <span key={key} style={{ fontSize: 9, fontWeight: 700, color: cfg.text, background: cfg.bg, border: `1.5px solid ${cfg.border}`, padding: '2px 6px' }}>
-                  {cfg.label}
-                </span>
-              ))}
-            </div>
-            {result.nutrientBalance.map((b, i) => {
-              const normalize = (s: string) => s.replace(/\s/g, '').toLowerCase();
-              const bNutrient = normalize(b.nutrient);
-              
-              const matchingProducts = sorted.filter(p => 
-                p.product.nutrients.some(n => {
-                  const nNorm = normalize(n);
-                  return bNutrient.includes(nNorm) || nNorm.includes(bNutrient);
-                })
-              );
-              
-              const totalMatchingCount = matchingProducts.length;
-              const activeMatchingCount = matchingProducts.filter(p => !excludedProductIds.has(p.product.id)).length;
-              
-              return (
-                <NutrientRow 
-                  key={i} 
-                  b={b} 
-                  activeMatchingCount={activeMatchingCount} 
-                  totalMatchingCount={totalMatchingCount} 
-                />
-              )
-            })}
-          </div>
-        )}
+          )}
+        </div>
 
         {/* 상호작용 분석 */}
         {result.interactions && result.interactions.length > 0 && (
