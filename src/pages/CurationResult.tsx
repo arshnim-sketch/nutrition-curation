@@ -91,12 +91,6 @@ function sumNutrientFromFacts(nutrientName: string, prods: RecommendedProduct[])
     .join(' + ')
 }
 
-const STATUS_CONFIG = {
-  optimal: { label: 'OPTIMAL', bg: '#E8F5E9', border: '#4CAF50', text: '#2E7D32', bar: '#4CAF50' },
-  low:     { label: 'LOW',     bg: '#E3F2FD', border: '#1B4FD8', text: '#1B4FD8', bar: '#1B4FD8' },
-  caution: { label: 'CAUTION', bg: '#FFFBE6', border: '#F5C800', text: '#B8860B', bar: '#F5C800' },
-  excess:  { label: 'EXCESS',  bg: '#FFF0F0', border: '#E63329', text: '#E63329', bar: '#E63329' },
-}
 
 const INTERACTION_CONFIG = {
   negative: { label: '주의', bg: '#FFF0F0', border: '#E63329', icon: '✕' },
@@ -340,17 +334,18 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
                   // 단일 제품만 초과: 의도된 고함량 제품 (주황) vs 복합 초과: 실제 경고 (빨강)
                   const isSingleExcess = b.status === 'excess' && totalMatchingCount <= 1
 
-                  const cfg = isExcluded
-                    ? { bar: '#444444', text: '#666666' }
-                    : isSingleExcess
-                      ? { bar: '#FF8C00', text: '#FF8C00' }
-                      : { bar: STATUS_CONFIG[b.status as keyof typeof STATUS_CONFIG]?.bar ?? '#4CAF50', text: STATUS_CONFIG[b.status as keyof typeof STATUS_CONFIG]?.text ?? '#4CAF50' }
-
                   const baseWidth = b.status === 'excess' ? 100 : b.status === 'optimal' ? 60 : b.status === 'caution' ? 85 : 30
                   const barWidth = isExcluded ? 0
                     : totalMatchingCount > 0 && activeMatchingCount < totalMatchingCount
                       ? Math.max(8, baseWidth * (activeMatchingCount / totalMatchingCount))
                       : baseWidth
+
+                  const barColor = isExcluded ? '#444444'
+                    : barWidth <= 25 ? '#E63329'
+                    : barWidth <= 50 ? '#F5C800'
+                    : barWidth <= 75 ? '#1B4FD8'
+                    : '#4CAF50'
+                  const cfg = { bar: barColor, text: barColor }
 
                   // 실제 nutritionFacts에서 합산값 우선 사용, 없으면 GPT 추정치 fallback
                   const activeMatchingProds = matchingProducts.filter(p => !excludedProductIds.has(p.product.id))
