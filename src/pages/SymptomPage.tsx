@@ -83,6 +83,8 @@ export default function SymptomPage({ member, onBack, onResult }: Props) {
   if (analyzing) {
     const step = LOADING_STEPS[loadingStep]
     const barCount = 8
+    const progress = Math.round(((loadingStep + 1) / LOADING_STEPS.length) * 100)
+    const progressColor = progress <= 25 ? '#E63329' : progress <= 50 ? '#F5C800' : progress <= 75 ? '#1B4FD8' : '#4CAF50'
     return (
       <div style={{ minHeight: '100vh', background: '#111111', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 32 }}>
         <style>{`
@@ -136,29 +138,49 @@ export default function SymptomPage({ member, onBack, onResult }: Props) {
           <p style={{ fontSize: 13, color: '#888888', fontWeight: 500 }}>{step.sub}</p>
         </div>
 
-        {/* 스캔 프로그레스 바 */}
-        <div style={{ width: '100%', maxWidth: 320, height: 3, background: '#2A2A2A', marginTop: 40, overflow: 'hidden', position: 'relative' }}>
-          <div style={{
-            position: 'absolute', top: 0, left: 0,
-            width: '40%', height: '100%',
-            background: 'linear-gradient(90deg, transparent, #F5C800, transparent)',
-            animation: 'scanLine 1.4s linear infinite',
-          }} />
+        {/* 프로그레스 바 */}
+        <div style={{ width: '100%', maxWidth: 320, marginTop: 40 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: progressColor, letterSpacing: '1.5px', transition: 'color 0.4s' }}>PROGRESS</span>
+            <span style={{ fontSize: 12, fontWeight: 900, color: progressColor, transition: 'color 0.4s' }}>{progress}%</span>
+          </div>
+          <div style={{ width: '100%', height: 8, background: '#2A2A2A', position: 'relative' }}>
+            <div style={{
+              height: '100%',
+              width: `${progress}%`,
+              background: progressColor,
+              transition: 'width 0.6s ease-out, background 0.4s ease',
+            }} />
+          </div>
+          {/* 25% 눈금 마커 */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
+            {['25%', '50%', '75%', '100%'].map((label, i) => {
+              const threshold = (i + 1) * 25
+              const reached = progress >= threshold
+              return (
+                <span key={label} style={{
+                  fontSize: 9, fontWeight: 700, letterSpacing: '0.5px',
+                  color: reached ? progressColor : '#333333',
+                  transition: 'color 0.4s',
+                }}>{label}</span>
+              )
+            })}
+          </div>
         </div>
 
         {/* 단계 도트 */}
-        <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
+        <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
           {LOADING_STEPS.map((_, i) => (
             <div key={i} style={{
               width: i === loadingStep ? 20 : 6,
               height: 6,
-              background: i === loadingStep ? '#F5C800' : i < loadingStep ? '#444444' : '#2A2A2A',
+              background: i === loadingStep ? progressColor : i < loadingStep ? '#444444' : '#2A2A2A',
               transition: 'all 0.3s ease',
             }} />
           ))}
         </div>
 
-        <p style={{ fontSize: 11, color: '#444444', marginTop: 32, letterSpacing: '0.5px' }}>
+        <p style={{ fontSize: 11, color: '#444444', marginTop: 24, letterSpacing: '0.5px' }}>
           AI가 열심히 분석 중이에요
           <span style={{ animation: 'blink 1s step-end infinite' }}>_</span>
         </p>
