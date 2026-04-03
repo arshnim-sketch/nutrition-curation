@@ -66,9 +66,27 @@ function extractDescription(name: string): string {
   return `${name}. 건강 기능 지원 영양제.`
 }
 
+// 멀티비타민/종합비타민 → 개별 영양소 확장
+const MULTIVITAMIN_NUTRIENTS = [
+  '비타민A', '비타민B1', '비타민B2', '비타민B6', '비타민B12',
+  '비타민C', '비타민D', '비타민E', '비타민K', '엽산',
+  '나이아신', '비오틴', '판토텐산',
+  '칼슘', '마그네슘', '아연', '철분', '셀레늄', '구리', '망간',
+]
+
 // 영양성분명 추출 시도 (상품명 기반 휴리스틱)
 function extractNutrients(name: string, description: string): string[] {
   const text = `${name} ${description}`
+
+  // 멀티비타민/종합비타민 계열은 개별 영양소 목록으로 확장
+  if (/멀티비타민|종합비타민|멀티비타민&미네랄|멀티비타민앤미네랄|올인원비타민/.test(text.replace(/\s/g, ''))) {
+    return MULTIVITAMIN_NUTRIENTS
+  }
+  // 비타민B 복합체
+  if (/비타민B\s*(컴플렉스|복합|콤플렉스)|B\s*complex/i.test(text)) {
+    return ['비타민B1', '비타민B2', '비타민B6', '비타민B12', '나이아신', '엽산', '비오틴', '판토텐산']
+  }
+
   const nutrientKeywords = [
     '비타민D', '비타민C', '비타민A', '비타민E', '비타민K', '비타민B',
     '마그네슘', '칼슘', '아연', '철분', '오메가3', 'EPA', 'DHA',
