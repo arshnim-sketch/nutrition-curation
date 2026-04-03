@@ -90,6 +90,7 @@ nutrientBalance의 estimatedDaily는 위 실제함량 데이터를 기반으로 
     systemInstruction: systemPrompt,
     generationConfig: {
       responseMimeType: 'application/json',
+      thinkingConfig: { thinkingBudget: 0 },
     } as object,
   })
 
