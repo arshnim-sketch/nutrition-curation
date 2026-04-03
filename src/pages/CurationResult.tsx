@@ -11,7 +11,7 @@ interface Props {
 
 const PRIORITY_ORDER: Record<string, number> = { high: 0, medium: 1, low: 2 }
 
-function getCatchphrase(symptoms: string[]): string {
+function getCatchphrase(symptoms: string[], age: number): string {
   const s = symptoms.join(' ')
   const cats: string[] = []
   if (/피로|무기력|에너지|활력/.test(s)) cats.push('피로')
@@ -24,6 +24,15 @@ function getCatchphrase(symptoms: string[]): string {
   if (/스트레스|불안|우울/.test(s)) cats.push('멘탈')
   if (/체중|다이어트/.test(s)) cats.push('체중')
   if (/눈|시력|눈피로/.test(s)) cats.push('눈')
+
+  // 10대 특별 캐치프레이즈
+  if (age < 20) {
+    if (cats.length === 0) return '젊고 건강하네.\n그래도 기본은 챙기자.'
+    if (cats.length === 1) return `젊은 친구가\n벌써 ${cats[0]} 문제야?`
+    if (cats.length === 2) return `젊은 친구가 벌써\n${cats[0]}에 ${cats[1]}까지?`
+    if (cats.length === 3) return `젊은 친구가 벌써.\n${cats[0]}, ${cats[1]}, ${cats[2]}까지.`
+    return `젊은 친구가 벌써\n이렇게 많이 아파?`
+  }
 
   const n = cats.length
 
@@ -255,7 +264,7 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
             <p style={{ fontSize: 11, fontWeight: 700, color: '#F5C800', letterSpacing: '2px', textTransform: 'uppercase' }}>AI ANALYSIS</p>
           </div>
           <p style={{ fontSize: 32, fontWeight: 900, color: '#FFFFFF', lineHeight: 1.25, letterSpacing: '-1px', marginBottom: 14 }}>
-            {getCatchphrase(member.symptoms)}
+            {getCatchphrase(member.symptoms, member.age)}
           </p>
           <p style={{ fontSize: 12, color: '#AACCFF', lineHeight: 1.7, borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: 12 }}>{result.summary}</p>
         </div>
