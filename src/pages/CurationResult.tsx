@@ -420,6 +420,16 @@ export default function CurationResult({ member, onBack, onReselect }: Props) {
             ← 홈으로
           </button>
         </div>
+
+        {/* 면책 고지 */}
+        <div style={{ border: '1.5px solid #CCCCCC', padding: '14px 16px', background: '#FAFAFA' }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#888888', letterSpacing: '1.5px', marginBottom: 6 }}>⚠ DISCLAIMER</p>
+          <p style={{ fontSize: 11, color: '#888888', lineHeight: 1.7 }}>
+            본 결과는 <strong style={{ color: '#555555' }}>참고용</strong>이며 의료적 진단·처방을 대체하지 않습니다.
+            임산부·수유부, 당뇨·갑상선·신장 질환 등 지병이 있는 분은 반드시 <strong style={{ color: '#555555' }}>의사·약사와 상담</strong> 후 복용하세요.
+            복용 중인 약물이 있는 경우 전문가를 통해 상호작용을 확인하시기 바랍니다.
+          </p>
+        </div>
       </main>
     </div>
   )
