@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAppContext } from '../store/AppContext'
 import SymptomSelector, { SYMPTOM_CATEGORIES } from '../components/SymptomSelector'
 import { curateSupplements } from '../lib/openai'
@@ -24,6 +24,29 @@ export default function SymptomPage({ member, onBack, onResult }: Props) {
   const [selected, setSelected] = useState<string[]>(existingSymptoms)
   const [analyzing, setAnalyzing] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [loadingStep, setLoadingStep] = useState(0)
+  const loadingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const LOADING_STEPS = [
+    { label: 'SCANNING', text: '증상 패턴 스캔 중...', sub: `${selected.length}개 증상 분석` },
+    { label: 'MATCHING', text: '193개 제품 필터링 중...', sub: '함량·성분 데이터 대조' },
+    { label: 'ANALYZING', text: '영양소 균형 계산 중...', sub: '한국인 영양소 기준(KDRIs) 적용' },
+    { label: 'CHECKING', text: '상호작용 검사 중...', sub: '흡수 경쟁·시너지 분석' },
+    { label: 'DESIGNING', text: '최적 조합 설계 중...', sub: 'AI 임상 영양사 판단 적용' },
+    { label: 'FINISHING', text: '복용 가이드 작성 중...', sub: '맞춤 루틴 완성 단계' },
+  ]
+
+  useEffect(() => {
+    if (analyzing) {
+      setLoadingStep(0)
+      loadingIntervalRef.current = setInterval(() => {
+        setLoadingStep(prev => (prev + 1) % LOADING_STEPS.length)
+      }, 1800)
+    } else {
+      if (loadingIntervalRef.current) clearInterval(loadingIntervalRef.current)
+    }
+    return () => { if (loadingIntervalRef.current) clearInterval(loadingIntervalRef.current) }
+  }, [analyzing])
 
   function toggleCategory(category: string) {
     if (selectedCategories.includes(category)) {
@@ -55,6 +78,92 @@ export default function SymptomPage({ member, onBack, onResult }: Props) {
     } finally {
       setAnalyzing(false)
     }
+  }
+
+  if (analyzing) {
+    const step = LOADING_STEPS[loadingStep]
+    const barCount = 8
+    return (
+      <div style={{ minHeight: '100vh', background: '#111111', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 32 }}>
+        <style>{`
+          @keyframes barPulse {
+            0%, 100% { transform: scaleY(0.3); opacity: 0.3; }
+            50% { transform: scaleY(1); opacity: 1; }
+          }
+          @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes scanLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(400%); }
+          }
+          @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+          }
+        `}</style>
+
+        {/* 로고 */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 48 }}>
+          <div style={{ width: 32, height: 32, background: '#E63329', border: '2px solid #F5C800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 12, height: 12, background: '#F5C800', borderRadius: '50%' }} />
+          </div>
+          <span style={{ color: '#FFFFFF', fontSize: 14, fontWeight: 700, letterSpacing: '1px' }}>현대인 도핑 가이드</span>
+        </div>
+
+        {/* 바 이퀄라이저 */}
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 5, height: 56, marginBottom: 40 }}>
+          {Array.from({ length: barCount }).map((_, i) => (
+            <div key={i} style={{
+              width: 10,
+              height: 56,
+              background: i % 3 === 0 ? '#E63329' : i % 3 === 1 ? '#F5C800' : '#1B4FD8',
+              transformOrigin: 'bottom',
+              animation: `barPulse ${0.6 + i * 0.13}s ease-in-out ${i * 0.08}s infinite`,
+            }} />
+          ))}
+        </div>
+
+        {/* 현재 단계 */}
+        <div key={loadingStep} style={{ textAlign: 'center', animation: 'fadeSlide 0.35s ease-out' }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#E63329', letterSpacing: '3px', marginBottom: 10 }}>
+            {step.label} [{loadingStep + 1}/{LOADING_STEPS.length}]
+          </p>
+          <p style={{ fontSize: 26, fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.5px', marginBottom: 8, lineHeight: 1.3 }}>
+            {step.text}
+          </p>
+          <p style={{ fontSize: 13, color: '#888888', fontWeight: 500 }}>{step.sub}</p>
+        </div>
+
+        {/* 스캔 프로그레스 바 */}
+        <div style={{ width: '100%', maxWidth: 320, height: 3, background: '#2A2A2A', marginTop: 40, overflow: 'hidden', position: 'relative' }}>
+          <div style={{
+            position: 'absolute', top: 0, left: 0,
+            width: '40%', height: '100%',
+            background: 'linear-gradient(90deg, transparent, #F5C800, transparent)',
+            animation: 'scanLine 1.4s linear infinite',
+          }} />
+        </div>
+
+        {/* 단계 도트 */}
+        <div style={{ display: 'flex', gap: 8, marginTop: 20 }}>
+          {LOADING_STEPS.map((_, i) => (
+            <div key={i} style={{
+              width: i === loadingStep ? 20 : 6,
+              height: 6,
+              background: i === loadingStep ? '#F5C800' : i < loadingStep ? '#444444' : '#2A2A2A',
+              transition: 'all 0.3s ease',
+            }} />
+          ))}
+        </div>
+
+        <p style={{ fontSize: 11, color: '#444444', marginTop: 32, letterSpacing: '0.5px' }}>
+          AI가 열심히 분석 중이에요
+          <span style={{ animation: 'blink 1s step-end infinite' }}>_</span>
+        </p>
+      </div>
+    )
   }
 
   return (
