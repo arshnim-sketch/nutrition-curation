@@ -1,10 +1,7 @@
-import OpenAI from 'openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import type { FamilyMember, Product, RecommendedProduct, NutrientBalance, SupplementInteraction } from '../types'
 
-const client = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true,
-})
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY)
 
 export async function curateSupplements(
   member: FamilyMember,
@@ -26,7 +23,7 @@ export async function curateSupplements(
 응답은 반드시 아래 JSON 형식으로만 답하세요:
 {
   "setName": "세트 이름 (12자 이내, 예: 기력 뿜뿜 충전 세트)",
-  "summary": "사용자의 상태를 위트 있는 비유로 시작하여 상황을 꿰뚫어 보는 요약 (3-4문장). 
+  "summary": "사용자의 상태를 위트 있는 비유로 시작하여 상황을 꿰뚫어 보는 요약 (3-4문장).
   [작성 가이드]
   - 예시 1: '산지 3년 된 핸드폰 배터리 - 앉아만 있어도 피곤한, 기력 충전이 시급한 상태예요.'
   - 예시 2: '눈은 감았는데 뇌는 출근 - 몸은 쉬고 싶은데 머리가 먼저 달리는 타입이에요.'
@@ -88,16 +85,18 @@ ${products.map(p => {
 이 사람에게 가장 적합한 영양제를 최대 5개 선정하고, 영양소 균형과 상호작용을 철저히 분석해주세요.
 nutrientBalance의 estimatedDaily는 위 실제함량 데이터를 기반으로 정확한 수치로 계산하세요.`
 
-  const response = await client.chat.completions.create({
-    model: 'gpt-4o',
-    messages: [
-      { role: 'system', content: systemPrompt },
-      { role: 'user', content: userMessage },
-    ],
-    response_format: { type: 'json_object' },
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-2.0-flash',
+    systemInstruction: systemPrompt,
+    generationConfig: {
+      responseMimeType: 'application/json',
+    } as object,
   })
 
-  const result = JSON.parse(response.choices[0].message.content ?? '{}') as {
+  const response = await model.generateContent(userMessage)
+  const text = response.response.text()
+
+  const result = JSON.parse(text) as {
     setName: string
     summary: string
     recommendations: {
