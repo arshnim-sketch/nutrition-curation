@@ -86,7 +86,7 @@ ${products.map(p => {
 nutrientBalance의 estimatedDaily는 위 실제함량 데이터를 기반으로 정확한 수치로 계산하세요.`
 
   const model = genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-2.0-flash',
     systemInstruction: systemPrompt,
     generationConfig: {
       responseMimeType: 'application/json',
